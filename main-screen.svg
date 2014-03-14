@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1024"
+   height="512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="main-screen.svg"
+   inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-23.518343"
+     inkscape:cy="167.91368"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     borderlayer="true"
+     inkscape:window-width="1360"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-540.36218)">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3004"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+       transform="matrix(2.2784227,0,0,2.2784227,-487.00724,534.09909)"><flowRegion
+         id="flowRegion3006"><rect
+           id="rect3008"
+           width="337.61752"
+           height="202.88019"
+           x="66.443512"
+           y="20.54105"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
+         id="flowPara3807"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">T</flowPara><flowPara
+         id="flowPara3809"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">E</flowPara><flowPara
+         id="flowPara3811"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">T</flowPara><flowPara
+         id="flowPara3813"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">R</flowPara><flowPara
+         id="flowPara3815"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">I</flowPara><flowPara
+         id="flowPara3817"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">S</flowPara></flowRoot>    <rect
+       y="561.28076"
+       x="476.46198"
+       height="430.49756"
+       width="313.31985"
+       id="rect3782"
+       style="fill:none;stroke:#000000;stroke-width:1.0023483;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <g
+       id="g3800"
+       transform="matrix(0.99941317,0,0,1,58.92681,-161.50502)">
+      <rect
+         y="912.55499"
+         x="62.609051"
+         height="80.812202"
+         width="317.1879"
+         id="rect3012"
+         style="fill:none;stroke:#000000;stroke-width:3;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <flowRoot
+         xml:space="preserve"
+         id="flowRoot3784"
+         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0.06px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+         transform="matrix(1.4240199,0,0,1.4240199,-4.8656698,867.42718)"><flowRegion
+           id="flowRegion3786"><rect
+             id="rect3788"
+             width="349.51279"
+             height="183.84776"
+             x="54.548237"
+             y="39.57349"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
+           id="flowPara3790">New Game</flowPara></flowRoot>    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3792"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0.06px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+       transform="matrix(1.4240199,0,0,1.4240199,344.62681,863.38657)"><flowRegion
+         id="flowRegion3794"><rect
+           id="rect3796"
+           width="349.51279"
+           height="183.84776"
+           x="54.548237"
+           y="39.57349"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
+         id="flowPara3798" /></flowRoot>    <flowRoot
+       transform="matrix(1.0057896,0,0,1.0057896,393.80145,556.90338)"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+       id="flowRoot3841"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3843"><rect
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           y="20.54105"
+           x="66.443512"
+           height="202.88019"
+           width="337.61752"
+           id="rect3845" /></flowRegion><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         id="flowPara3857">High Scores</flowPara></flowRoot>    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 523.29963,612.26055 212.13203,0 z"
+       id="path3869"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

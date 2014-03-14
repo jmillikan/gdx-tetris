@@ -1,0 +1,12 @@
+*-android/.settings/
+*-android/bin/
+*-desktop/.settings/
+*-desktop/bin/
+*-html/.settings/
+*-html/gwt-unitCache/
+*-html/war/WEB-INF/classes/
+*-html/war/WEB-INF/deploy/
+*-html/war/assets/
+*-html/war/
+*/.settings/
+*/bin/
