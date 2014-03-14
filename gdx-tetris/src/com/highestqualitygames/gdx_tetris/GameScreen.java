@@ -1,51 +1,39 @@
 package com.highestqualitygames.gdx_tetris;
 
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-
-
 public class GameScreen implements Screen {
+	SpriteBatch batch = new SpriteBatch();
+	Vector3 touchPoint = new Vector3();
+	
+	// row-major grid, 0 at the bottom, 21/20 hidden at the top
+	boolean[][] grid = new boolean[22][10];
+	
 	Game game;
-	SpriteBatch batch;
 	OrthographicCamera cam;
 	Sprite mm_sprite;
-	Rectangle startRect;
-	Vector3 touchPoint;
 	
 	public GameScreen(Game game) {
 		this.game = game;
 		
-		cam = new OrthographicCamera(1, ((float) Gdx.graphics.getHeight())/((float) Gdx.graphics.getWidth()));
-		batch = new SpriteBatch();
+		// For getting grid rendering...
+		this.grid[21][0] = true;
+		this.grid[21][1] = true;
+		this.grid[21][2] = true;
+		this.grid[22][1] = true;
 		
-		Texture texture = new Texture(Gdx.files.internal("data/main-screen.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		cam = new OrthographicCamera();
+		cam.setToOrtho(false, 800, 480);
 		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 800, 480);
-		
-		startRect = new Rectangle(120,187, 320, 84);
-		
-		mm_sprite = new Sprite(region);
-		
-		float aspect = mm_sprite.getHeight() / mm_sprite.getWidth();
-		// TODO: Figure out whether we need any of this
-		
-		// wonk these so we know we're here...
-		mm_sprite.setBounds(-0.3f, -0.3f * aspect, 1.0f, aspect);
-		
-		touchPoint = new Vector3();
+		mm_sprite = new Sprite(Assets.gameScreen);
+		mm_sprite.setPosition(0, 0);
 	}
 
 	@Override
@@ -53,8 +41,21 @@ public class GameScreen implements Screen {
 		if (Gdx.input.justTouched()) {
 			cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
+			if (Assets.gameScreenLeft.contains(touchPoint.x, touchPoint.y)) {
+				throw new java.lang.Error("Yep, left clicked");
+			}
 			
-			// TODO
+			if (Assets.gameScreenRight.contains(touchPoint.x, touchPoint.y)) {
+				throw new java.lang.Error("Yep, right clicked");
+			}
+			
+			if (Assets.gameScreenRotLeft.contains(touchPoint.x, touchPoint.y)) {
+				throw new java.lang.Error("Yep, rotate left clicked");
+			}
+			
+			if (Assets.gameScreenRotRight.contains(touchPoint.x, touchPoint.y)) {
+				throw new java.lang.Error("Yep, rotate right clicked");
+			}
 		}
 		
 		Gdx.gl.glClearColor(1, 1, 1, 1);
