@@ -84,5 +84,4 @@ public class MenuScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
