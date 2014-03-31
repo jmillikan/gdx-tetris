@@ -28,10 +28,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="489.92292"
+     inkscape:cx="542.55308"
      inkscape:cy="144.47226"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer2"
      showgrid="false"
      borderlayer="true"
      inkscape:window-width="1360"
@@ -104,17 +104,7 @@
          id="flowPara3815"
          style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">I</flowPara><flowPara
          id="flowPara3817"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">S</flowPara></flowRoot>    <rect
-       y="575.53656"
-       x="295.39996"
-       height="410.62863"
-       width="209.20009"
-       id="rect3782"
-       style="fill:none;stroke:#000000;stroke-width:0.79991698;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <flowRoot
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">S</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3792"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0.06px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
@@ -142,25 +132,25 @@
        style="fill:none;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
     <rect
        y="676.06512"
-       x="124.28571"
+       x="104.28571"
        height="140"
        width="134.28572"
        id="rect3907"
-       style="fill:none;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
     <rect
-       style="fill:none;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        id="rect3909"
        width="134.28572"
        height="140"
-       x="544.28571"
+       x="564.28571"
        y="676.06512" />
     <path
        style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 221.42857,414.85714 0,-78.57143 -65.71429,40 z"
        id="path3913"
        inkscape:connector-curvature="0"
-       transform="translate(0,540.36218)"
-       sodipodi:nodetypes="cccc" />
+       sodipodi:nodetypes="cccc"
+       transform="translate(0,540.36218)" />
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -176,13 +166,13 @@
        sodipodi:rx="35.714287"
        sodipodi:ry="35.714287"
        d="M 192.85715,247.71429 A 35.714287,35.714287 0 1 1 228.57143,212"
-       transform="translate(-1.4285736,534.06512)"
+       transform="translate(-21.428574,534.06512)"
        sodipodi:start="1.5707963"
        sodipodi:end="6.2831853"
        sodipodi:open="true" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 191.13948,798.07494 0,-33.1447 27.72102,16.87366 z"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 171.13948,798.07494 0,-33.1447 27.72102,16.87366 z"
        id="path3923"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
@@ -190,7 +180,7 @@
        sodipodi:open="true"
        sodipodi:end="6.2831853"
        sodipodi:start="1.5707963"
-       transform="matrix(-1,0,0,1,805.42857,534.06512)"
+       transform="matrix(-1,0,0,1,825.42857,534.06512)"
        d="M 192.85715,247.71429 A 35.714287,35.714287 0 1 1 228.57143,212"
        sodipodi:ry="35.714287"
        sodipodi:rx="35.714287"
@@ -203,7 +193,76 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="path3927"
-       d="m 612.86051,798.07494 0,-33.1447 -27.72102,16.87366 z"
+       d="m 632.86051,798.07494 0,-33.1447 -27.72102,16.87366 z"
        style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-  </g>
+    <rect
+       style="fill:#9d9d9d;fill-opacity:0;stroke:#000000;stroke-width:2.36817265;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3017"
+       width="242.06041"
+       height="92.060402"
+       x="278.96982"
+       y="917.76056" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 360.7143,933.64789 78.57143,0 -40,65.71429 z"
+       id="path3806"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       y="575.53656"
+       x="295.39996"
+       height="410.62863"
+       width="209.20009"
+       id="rect3782"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79991698000000000;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:0.5022831"
+       inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       id="rect3808"
+       width="135.08223"
+       height="75.08223"
+       x="563.88745"
+       y="563.09546" />
+    <flowRoot
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
+       transform="matrix(1.0190093,0,0,1.0190093,393.26877,572.00478)"
+       style="font-size:35.32843018px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+       id="flowRoot3810"
+       xml:space="preserve"><flowRegion
+         id="flowRegion3812"><rect
+           style="font-size:35.32843018px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+           y="20.54105"
+           x="66.443512"
+           height="202.88019"
+           width="337.61752"
+           id="rect3814" /></flowRegion><flowPara
+         style="font-size:35.32843018px;font-style:normal;font-weight:bold;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee Bold"
+         id="flowPara3826">Pause</flowPara></flowRoot>    <rect
+       y="563.09546"
+       x="103.88745"
+       height="75.08223"
+       width="135.08223"
+       id="rect3848"
+       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3850"
+       style="font-size:35.32843018px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+       transform="matrix(1.0190093,0,0,1.0190093,-66.73123,572.00478)"
+       inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion3852"><rect
+           id="rect3854"
+           width="337.61752"
+           height="202.88019"
+           x="66.443512"
+           y="20.54105"
+           style="font-size:35.32843018px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
+         id="flowPara3856"
+         style="font-size:35.32843018px;font-style:normal;font-weight:bold;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee Bold">Pause</flowPara></flowRoot>  </g>
 </svg>
