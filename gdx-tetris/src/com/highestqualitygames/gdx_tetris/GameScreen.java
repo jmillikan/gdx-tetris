@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
 	interface GameState {
@@ -21,10 +23,16 @@ public class GameScreen implements Screen {
 	Game game;
 	OrthographicCamera cam;
 	Sprite mm_sprite, block_sprite;
+	BitmapFont font = new BitmapFont();
 	
 	final int BLOCK_SIZE = 20;
 	
-	final float DROP_TIMEOUT = 1;
+	final int FASTER_COUNT = 1;
+	final float FASTER_RATIO = 0.98f;
+	
+	float drop_timeout = 1;
+	int rows = 0;
+	int score = 0;
 	
 	// row-major grid, 0 at the bottom, 21/20 hidden at the top
 	final int GRID_HEIGHT = 22;
@@ -61,12 +69,13 @@ public class GameScreen implements Screen {
 		block_sprite = new Sprite(Assets.block);
 		block_sprite.setPosition(0, 0);
 		
-		next_drop = DROP_TIMEOUT;
+		next_drop = drop_timeout;
 	}
 	
 	class RunningState implements GameState {
 		public void draw(){
 			drawGame();
+			drawPiece();
 		}
 		
 		public void update(float delta){
@@ -93,7 +102,7 @@ public class GameScreen implements Screen {
 		}
 		
 		public void draw(){
-			drawGame();
+			returnState.draw();
 		}
 		
 		public void update(float delta){
@@ -102,6 +111,43 @@ public class GameScreen implements Screen {
 					state = returnState;
 				}
 			});
+		}
+	}
+	
+	class ClearingState implements GameState {
+		float left = 1.0f;
+		boolean cleared = false;
+		
+		public void draw(){
+			drawGame();
+		}
+		
+		public void update(float delta){
+			handlePauseKeys(new Runnable(){
+				public void run(){
+					state = new PausedState(ClearingState.this);
+				}
+			});
+			
+			left -= delta;
+			
+			if(left > 0) return;
+			
+			if(left <= 0 && !cleared){
+				clearRows();
+				cleared = true;
+				left = 1.0f;
+			}
+			else {
+				spawnPiece();
+				
+				if(collidesWithGridOrWall(piece, piece_x, piece_y)){
+					gameOver();
+				}
+				else {
+					state = new RunningState();
+				}
+			}
 		}
 	}
 
@@ -162,10 +208,10 @@ public class GameScreen implements Screen {
 	
 	public void spawnPiece(){
 		this.piece = randomPiece();
-		this.piece_x = 3;
+		this.piece_x = EASY ? 0 : 3;
 		this.piece_y = 21;	
 		
-		next_drop = DROP_TIMEOUT;
+		next_drop = drop_timeout;
 	}
 	
 	public void attachPiece(){
@@ -183,23 +229,19 @@ public class GameScreen implements Screen {
 		if(!collidesWithGridOrWall(piece, piece_x, piece_y - 1)){
 			piece_y = piece_y - 1;
 			
-			next_drop = DROP_TIMEOUT - (byUser ? 0 : next_drop);
+			next_drop = drop_timeout - (byUser ? 0 : next_drop);
 		}
 		else {
 			// TODO: Pause game for this...
 			attachPiece();
-			
-			clearRows();
-			
-			spawnPiece();
-			
-			if(collidesWithGridOrWall(piece, piece_x, piece_y)){
-				gameOver();
-			}
+
+			state = new ClearingState();
 		}
 	}
 	
 	public void clearRows(){
+		int rowsCleared = 0;
+		
 		for(int i = 0; i < GRID_HEIGHT;){
 			boolean full = true;
 			
@@ -208,8 +250,16 @@ public class GameScreen implements Screen {
 					full = false;
 			}
 			
+			
 			if(full){
 				// Move rows down...
+				rows++;
+				rowsCleared++;
+				
+				if(rows >= FASTER_COUNT){
+					drop_timeout = drop_timeout * FASTER_RATIO;
+					rows = 0;
+				}
 
 				for(int k = i; k < GRID_HEIGHT - 1; k++){
 					grid[k] = grid[k + 1];
@@ -220,7 +270,10 @@ public class GameScreen implements Screen {
 			else {
 				i++;
 			}
+			
 		}
+
+		score += rowsCleared * rowsCleared * 10;
 	}
 	
 	public void gameOver(){
@@ -272,6 +325,27 @@ public class GameScreen implements Screen {
 			}
 		}
 		
+		Matrix4 bigger = new Matrix4().scale(3.0f, 3.0f, 1.0f);
+		
+		batch.setTransformMatrix(bigger);
+		String scoreString = String.format("%06d", score);
+	
+		for(int i = 0; i < 6; i++){
+			font.draw(batch, scoreString.subSequence(i, i+1), 750f / 3.0f, (400.0f - i * 40.0f) / 3.0f);			
+		}
+
+		batch.setTransformMatrix(new Matrix4().idt());
+
+		batch.end();
+	}
+
+	// Do not call before drawGame
+	public void drawPiece(){
+		batch.begin();
+
+		float grid_x = Assets.gameScreenGrid.x;
+		float grid_y = Assets.gameScreenGrid.y;
+		
 		int size = piece.length;
 		for(int i = 0; i < size; i++){
 			for(int j = 0; j < size; j++){
@@ -285,6 +359,7 @@ public class GameScreen implements Screen {
 		}
 		
 		batch.end();
+
 	}
 
 	@Override
@@ -328,13 +403,15 @@ public class GameScreen implements Screen {
 	final static boolean O = false;
 	// Note: To keep things 'simple', don't write over pieces. Copy instead.
 	private static boolean[][][] pieces = new boolean[][][]{
+		{{O,X,O,O},
+		 {O,X,O,O},
+		 {O,X,O,O},
+		 {O,X,O,O}},
+		   {{X,X},
+			{X,X}},
 		   {{O,O,O},
 			{X,X,X},
 			{O,X,O}},
-		   {{O,X,O,O},
-			{O,X,O,O},
-			{O,X,O,O},
-			{O,X,O,O}},
 		   {{O,X,O},
 			{O,X,O},
 			{O,X,X}},
@@ -349,8 +426,22 @@ public class GameScreen implements Screen {
 			{O,O,X}}
 		};
 	
+	public static final boolean EASY = false;
+	
 	// Return a random piece in first position
 	private static boolean[][] randomPiece(){
+		if(EASY) {
+			boolean easy[][] = new boolean[10][10];
+			for(int i = 0; i < 10;i++){
+				easy[0][i] = true;
+				easy[1][i] = true;
+				easy[2][i] = true;
+				easy[3][i] = true;
+			}
+			
+			return easy;
+		}
+		
 		return pieces[(int) Math.floor(Math.random() * pieces.length)];
 	}
 	
