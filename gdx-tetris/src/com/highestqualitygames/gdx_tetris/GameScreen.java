@@ -79,11 +79,9 @@ public class GameScreen implements Screen {
 		}
 		
 		public void update(float delta){
-			handlePauseKeys(new Runnable(){
-				public void run(){
-					state = new PausedState(RunningState.this);
-				}
-			});
+			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+				state = new PausedState(RunningState.this);		
+			}
 			
 			next_drop -= delta;
 			
@@ -106,16 +104,14 @@ public class GameScreen implements Screen {
 		}
 		
 		public void update(float delta){
-			handlePauseKeys(new Runnable(){
-				public void run(){
-					state = returnState;
-				}
-			});
+			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+				state = returnState;
+			}
 		}
 	}
 	
 	class ClearingState implements GameState {
-		float left = 1.0f;
+		float left = 0.8f;
 		boolean cleared = false;
 		
 		public void draw(){
@@ -123,12 +119,10 @@ public class GameScreen implements Screen {
 		}
 		
 		public void update(float delta){
-			handlePauseKeys(new Runnable(){
-				public void run(){
-					state = new PausedState(ClearingState.this);
-				}
-			});
-			
+			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+				state = new PausedState(this);
+			}
+
 			left -= delta;
 			
 			if(left > 0) return;
@@ -136,7 +130,7 @@ public class GameScreen implements Screen {
 			if(left <= 0 && !cleared){
 				clearRows();
 				cleared = true;
-				left = 1.0f;
+				left = 0.5f;
 			}
 			else {
 				spawnPiece();
