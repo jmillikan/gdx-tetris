@@ -10,6 +10,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameScreen implements Screen {
+	interface GameState {
+		void draw();
+		void update(float delta);
+	}
+	
 	SpriteBatch batch = new SpriteBatch();
 	Vector3 touchPoint = new Vector3();
 
@@ -24,6 +29,8 @@ public class GameScreen implements Screen {
 	// row-major grid, 0 at the bottom, 21/20 hidden at the top
 	final int GRID_HEIGHT = 22;
 	final int GRID_WIDTH = 10;
+	
+	GameState state;
 
 	boolean[][] grid = new boolean[GRID_HEIGHT][GRID_WIDTH];
 	
@@ -41,6 +48,8 @@ public class GameScreen implements Screen {
 	public GameScreen(Game game) {
 		this.game = game;
 		
+		state = new RunningState();
+		
 		spawnPiece();
 		
 		cam = new OrthographicCamera();
@@ -54,52 +63,99 @@ public class GameScreen implements Screen {
 		
 		next_drop = DROP_TIMEOUT;
 	}
+	
+	class RunningState implements GameState {
+		public void draw(){
+			drawGame();
+		}
+		
+		public void update(float delta){
+			handlePauseKeys(new Runnable(){
+				public void run(){
+					state = new PausedState(RunningState.this);
+				}
+			});
+			
+			next_drop -= delta;
+			
+			if (next_drop <= 0) {
+				dropPiece(false);
+			}
+			
+			handleGameKeys();
+		}
+	}
+	
+	class PausedState implements GameState {
+		GameState returnState;
+		public PausedState(GameState returnState){
+			this.returnState = returnState;
+		}
+		
+		public void draw(){
+			drawGame();
+		}
+		
+		public void update(float delta){
+			handlePauseKeys(new Runnable(){
+				public void run(){
+					state = returnState;
+				}
+			});
+		}
+	}
 
 	@Override
 	public void render(float delta) {
-		next_drop -= delta;
-		
-		if (next_drop <= 0) {
-			dropPiece(false);
-		}
-		
-		handleGameKeys();
-		
-		drawGame();
+		state.draw();
+		state.update(delta);
 	}
 	
+	boolean touched(com.badlogic.gdx.math.Rectangle r){
+		if (!Gdx.input.justTouched())
+			return false;
+		
+		// If this could possibly be slow, I could move it t...
+		// It won't be slow
+		cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+		
+		return r.contains(touchPoint.x, touchPoint.y);
+	}
+	
+	public void handlePauseKeys(Runnable action) {
+		if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+			action.run();
+		}
+	}
+
 	public void handleGameKeys() {
-		if (Gdx.input.justTouched()) {
-			cam.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-			
-			if (Assets.gameScreenDrop.contains(touchPoint.x, touchPoint.y)) {
+		if (touched(Assets.gameScreenDrop)){
 				dropPiece(true);
-			}
+		}
 			
-			if (Assets.gameScreenLeft.contains(touchPoint.x, touchPoint.y)) {
-				if(!collidesWithGridOrWall(piece, piece_x - 1, piece_y)){
-					piece_x -= 1;
-				}
+		if (touched(Assets.gameScreenLeft)){
+			if(!collidesWithGridOrWall(piece, piece_x - 1, piece_y)){
+				piece_x -= 1;
 			}
-			
-			if (Assets.gameScreenRight.contains(touchPoint.x, touchPoint.y)) {
-				if(!collidesWithGridOrWall(piece, piece_x + 1, piece_y)){
-					piece_x += 1;
-				}
+		}
+
+		if (touched(Assets.gameScreenRight)){
+			if(!collidesWithGridOrWall(piece, piece_x + 1, piece_y)){
+				piece_x += 1;
 			}
-			
-			if (Assets.gameScreenRotLeft.contains(touchPoint.x, touchPoint.y)) {
-				boolean[][] new_piece = this.rotate(false, piece);
-				if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
-					piece = new_piece;
-				}
+		}	
+
+		if (touched(Assets.gameScreenRotLeft)){
+			boolean[][] new_piece = this.rotate(false, piece);
+			if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
+				piece = new_piece;
 			}
-			
-			if (Assets.gameScreenRotRight.contains(touchPoint.x, touchPoint.y)) {
-				boolean[][] new_piece = this.rotate(true, piece);
-				if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
-					piece = new_piece;
-				}
+		}
+
+		if (touched(Assets.gameScreenRotRight)){ 
+			boolean[][] new_piece = this.rotate(true, piece);
+			if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
+				piece = new_piece;
 			}
 		}
 	}
@@ -268,21 +324,34 @@ public class GameScreen implements Screen {
 	}
 	
 
-	
+	final static boolean X = true;
+	final static boolean O = false;
 	// Note: To keep things 'simple', don't write over pieces. Copy instead.
 	private static boolean[][][] pieces = new boolean[][][]{
-		   {{false,false,false},{true,true,true},{false,true,false}},
-		   {{false,true,false,false},{false,true,false,false},{false,true,false,false},{false,true,false,false}},
-		   {{false,true,false},{false,true,false},{false,true,true}},
-		   {{false,true,false},{false,true,false},{true,true,false}},
-		   {{false,true,false},{true,true,false},{true,false,false}},
-		   {{false,true,false},{false,true,true},{false,false,true}},
-		   {{true,true},{true,true}}
+		   {{O,O,O},
+			{X,X,X},
+			{O,X,O}},
+		   {{O,X,O,O},
+			{O,X,O,O},
+			{O,X,O,O},
+			{O,X,O,O}},
+		   {{O,X,O},
+			{O,X,O},
+			{O,X,X}},
+		   {{O,X,O},
+			{O,X,O},
+			{X,X,O}},
+		   {{O,X,O},
+			{X,X,O},
+			{X,O,O}},
+		   {{O,X,O},
+			{O,X,X},
+			{O,O,X}}
 		};
 	
 	// Return a random piece in first position
 	private static boolean[][] randomPiece(){
-		return pieces[(int) Math.floor(Math.random() * 7)];
+		return pieces[(int) Math.floor(Math.random() * pieces.length)];
 	}
 	
 	private boolean[][] rotate(boolean right, boolean[][] piece){

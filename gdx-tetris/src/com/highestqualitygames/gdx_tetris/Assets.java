@@ -31,8 +31,8 @@ public class Assets {
 		gameScreenRight = new Rectangle(542, 32, 138, 143); 
 		gameScreenGrid = new Rectangle(300, 39, 10 * 20, 22 * 20);
 		gameScreenDrop = new Rectangle(277, 10, 243, 94);
-		gameScreenPause1 = new Rectangle(102, 412, 138, 78);
-		gameScreenPause2 = new Rectangle(562, 412, 138, 78);
+		gameScreenPause1 = new Rectangle(102, 380, 138, 78);
+		gameScreenPause2 = new Rectangle(562, 380, 138, 78);
 		
 		texture = new Texture(Gdx.files.internal("data/main-screen.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
