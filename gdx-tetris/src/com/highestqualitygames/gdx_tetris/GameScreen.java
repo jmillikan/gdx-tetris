@@ -20,6 +20,9 @@ public class GameScreen implements Screen {
 
 	final int GRID_HEIGHT = 22;
 	final int GRID_WIDTH = 10;
+	
+	// Switches on a mode with a huge 4-line block for manual testing...
+	final boolean EASY = false;
 
 	// LibGDX graphics & input machinery
 	SpriteBatch batch = new SpriteBatch();
@@ -106,7 +109,8 @@ public class GameScreen implements Screen {
 			drawBlocks(piece, piece_x, piece_y, true);
 		}
 		
-		public void attachPiece(){
+		// copy piece onto grid
+		void attachPiece(){
 			int size = piece.length;
 			for(int i = 0; i < size; i++){
 				for(int j = 0; j < size; j++){
@@ -133,10 +137,10 @@ public class GameScreen implements Screen {
 				dropPiece(false);
 			}
 			
-			handleGameKeys();
+			handlePieceKeys();
 		}
 		
-		public void handleGameKeys() {
+		void handlePieceKeys() {
 			if (touched(Assets.gameScreenDrop)){
 					dropPiece(true);
 			}
@@ -168,14 +172,13 @@ public class GameScreen implements Screen {
 			}
 		}
 		
-		public void dropPiece(boolean byUser){
+		void dropPiece(boolean byUser){
 			if(!collidesWithGridOrWall(piece, piece_x, piece_y - 1)){
 				piece_y = piece_y - 1;
 				
 				next_drop = drop_timeout - (byUser ? 0 : next_drop);
 			}
 			else {
-				// TODO: Pause game for this...
 				attachPiece();
 
 				state = new ClearingState();
@@ -245,7 +248,7 @@ public class GameScreen implements Screen {
 		return r.contains(touchPoint.x, touchPoint.y);
 	}
 	
-	public void clearRows(){
+	void clearRows(){
 		int rowsCleared = 0;
 		
 		for(int i = 0; i < GRID_HEIGHT;){
@@ -281,7 +284,7 @@ public class GameScreen implements Screen {
 		score += rowsCleared * rowsCleared * 10;
 	}
 
-	private boolean collidesWithGridOrWall(boolean[][] p, int p_x, int p_y){
+	boolean collidesWithGridOrWall(boolean[][] p, int p_x, int p_y){
 		// i is p row, j is p column
 		for(int i = 0; i < p.length; i++){
 			for(int j = 0; j < p.length; j++){
@@ -300,7 +303,7 @@ public class GameScreen implements Screen {
 		return false;
 	}
 	
-	public void drawGame(){
+	void drawGame(){
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
@@ -330,7 +333,7 @@ public class GameScreen implements Screen {
 	
 	// flip_y because the grid is stored upside down from the piece.
 	// This is not really a good thing.
-	public void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
+	void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
 		batch.begin();
 
 		float grid_x = Assets.gameScreenGrid.x;
@@ -385,12 +388,15 @@ public class GameScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
-	
 
+	// PIECES
+	// Pieces are square arrays of booleans, true for "block here".
+	// To keep things 'simple', never write over pieces. Instead, copy when necessary.
+	
 	final static boolean X = true;
 	final static boolean O = false;
-	// Note: To keep things 'simple', don't write over pieces. Copy instead.
-	private static boolean[][][] pieces = new boolean[][][]{
+
+	static boolean[][][] pieces = new boolean[][][]{
 		{{O,X,O,O},
 		 {O,X,O,O},
 		 {O,X,O,O},
@@ -414,10 +420,8 @@ public class GameScreen implements Screen {
 			{O,O,X}}
 		};
 	
-	public static final boolean EASY = false;
-	
 	// Return a random piece in first position
-	private static boolean[][] randomPiece(){
+	boolean[][] randomPiece(){
 		if(EASY) {
 			boolean easy[][] = new boolean[10][10];
 			for(int i = 0; i < 10;i++){
@@ -433,7 +437,7 @@ public class GameScreen implements Screen {
 		return pieces[(int) Math.floor(Math.random() * pieces.length)];
 	}
 	
-	private boolean[][] rotate(boolean right, boolean[][] piece){
+	boolean[][] rotate(boolean right, boolean[][] piece){
 		// Assume that piece is a square (not ragged or rectangular)
 		boolean[][] new_piece = new boolean[piece.length][piece[0].length];
 		
