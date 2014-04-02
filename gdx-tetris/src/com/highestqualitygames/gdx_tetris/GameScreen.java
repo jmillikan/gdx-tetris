@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
 
 	Game game;
 	OrthographicCamera cam;
-	Sprite mm_sprite, block_sprite, over_sprite;
+	Sprite mm_sprite, block_sprite, over_sprite, pause_sprite;
 	BitmapFont font = new BitmapFont();
 
 	// Game variables
@@ -64,6 +64,9 @@ public class GameScreen implements Screen {
 		over_sprite = new Sprite(Assets.overScreen);
 		over_sprite.setPosition(0, 0);
 		
+		pause_sprite = new Sprite(Assets.pauseScreen);
+		pause_sprite.setPosition(0, 0);
+		
 		block_sprite = new Sprite(Assets.block);
 		block_sprite.setPosition(0, 0);
 	}
@@ -78,12 +81,8 @@ public class GameScreen implements Screen {
 		
 		public void draw(){
 			losingState.draw();
-			
-			batch.begin();
-			
+
 			over_sprite.draw(batch);
-			
-			batch.end();
 		}
 		
 		public void update(float delta){
@@ -97,6 +96,55 @@ public class GameScreen implements Screen {
 		}
 	}
 	
+	class PausedState implements GameState {
+		GameState returnState;
+		public PausedState(GameState returnState){
+			this.returnState = returnState;
+		}
+		
+		public void draw(){
+			returnState.draw();
+				
+			pause_sprite.draw(batch);
+		}
+		
+		public void update(float delta){
+			if(touched(Assets.pauseResume)){
+				state = returnState;
+			}
+			
+			if(touched(Assets.pauseMenu)){
+				game.setScreen(new MenuScreen(game));
+			}
+		}
+	}
+	
+	class ClearingState implements GameState {
+		float left = 0.4f;
+		boolean cleared = false;
+		
+		public void draw(){
+			drawGame();
+		}
+		
+		public void update(float delta){
+			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+				state = new PausedState(this);
+			}
+
+			left -= delta;
+			
+			if(left <= 0.2f && !cleared){
+				clearRows();
+				cleared = true;
+			}
+			
+			if(left <= 0){
+				state = new PieceState();
+			}
+		}
+	}
+
 	class PieceState implements GameState {
 		// A square array of length 2/3/4
 		boolean[][] piece = randomPiece();
@@ -204,55 +252,19 @@ public class GameScreen implements Screen {
 		}
 	}
 	
-	class PausedState implements GameState {
-		GameState returnState;
-		public PausedState(GameState returnState){
-			this.returnState = returnState;
-		}
-		
-		public void draw(){
-			returnState.draw();
-		}
-		
-		public void update(float delta){
-			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
-				state = returnState;
-			}
-		}
-	}
-	
-	class ClearingState implements GameState {
-		float left = 0.2f;
-		boolean cleared = false;
-		
-		public void draw(){
-			drawGame();
-		}
-		
-		public void update(float delta){
-			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
-				state = new PausedState(this);
-			}
-
-			left -= delta;
-			
-			if(left > 0) return;
-			
-			if(left <= 0 && !cleared){
-				clearRows();
-				cleared = true;
-				left = 0.2f;
-			}
-			else {
-				state = new PieceState();
-			}
-		}
-	}
-
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
+		batch.setProjectionMatrix(cam.combined);
+
+		batch.begin();
+		
 		state.draw();
 		state.update(delta);
+		
+		batch.end();
 	}
 	
 	boolean touched(com.badlogic.gdx.math.Rectangle r){
@@ -322,19 +334,10 @@ public class GameScreen implements Screen {
 	}
 	
 	void drawGame(){
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		batch.setProjectionMatrix(cam.combined);
-		
-		batch.begin();
 		mm_sprite.draw(batch);
-		batch.end();
 
 		drawBlocks(grid, 0, 0, false);
-		
-		batch.begin();
-		
+
 		Matrix4 bigger = new Matrix4().scale(3.0f, 3.0f, 1.0f);
 		
 		batch.setTransformMatrix(bigger);
@@ -345,14 +348,12 @@ public class GameScreen implements Screen {
 		}
 
 		batch.setTransformMatrix(new Matrix4().idt());
-
-		batch.end();
 	}
 	
 	// flip_y because the grid is stored upside down from the piece.
 	// This is not really a good thing.
 	void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
-		batch.begin();
+		
 
 		float grid_x = Assets.gameScreenGrid.x;
 		float grid_y = Assets.gameScreenGrid.y;
@@ -368,7 +369,7 @@ public class GameScreen implements Screen {
 			}
 		}
 		
-		batch.end();
+		
 	}
 
 	@Override

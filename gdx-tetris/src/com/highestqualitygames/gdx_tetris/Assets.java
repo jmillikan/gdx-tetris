@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Assets {
-	public static TextureRegion gameScreen, mainScreen, block, overScreen;
+	public static TextureRegion gameScreen, mainScreen, block, overScreen, pauseScreen;
 	
 	// These rectangles are relative to the BG (and so will need adjusted if the camera is not 1:1 with it)
 	public static Rectangle mainScreenStart;
 	
 	public static Rectangle gameScreenRotLeft, gameScreenRotRight, gameScreenLeft, gameScreenRight,
-		gameScreenGrid, gameScreenDrop, gameScreenPause1, gameScreenPause2, overMenu, overRestart;
+		gameScreenGrid, gameScreenDrop, gameScreenPause1, gameScreenPause2, overMenu, overRestart,
+		pauseMenu, pauseResume;
 	
 	public static void load() {
 		Texture texture;
@@ -46,6 +47,13 @@ public class Assets {
 		overScreen = new TextureRegion(texture, 0, 0, 800, 480);
 		overMenu = new Rectangle(251, 198, 138, 78);
 		overRestart = new Rectangle(413, 198, 138, 78);
+
+		texture = new Texture(Gdx.files.internal("data/game-pause.png"));
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		pauseScreen = new TextureRegion(texture, 0, 0, 800, 480);
+		pauseMenu = new Rectangle(251, 198, 138, 78);
+		pauseResume = new Rectangle(413, 198, 138, 78);
 
 		texture = new Texture(Gdx.files.internal("data/block.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);

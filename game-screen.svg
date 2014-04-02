@@ -31,7 +31,7 @@
      inkscape:cx="542.55308"
      inkscape:cy="144.47226"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      borderlayer="true"
      inkscape:window-width="1360"
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -93,18 +93,18 @@
            x="66.443512"
            y="20.54105"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
-         id="flowPara3807"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">T</flowPara><flowPara
-         id="flowPara3809"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">E</flowPara><flowPara
-         id="flowPara3811"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">T</flowPara><flowPara
-         id="flowPara3813"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">R</flowPara><flowPara
-         id="flowPara3815"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">I</flowPara><flowPara
          id="flowPara3817"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">S</flowPara></flowRoot>    <flowRoot
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">P</flowPara><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         id="flowPara4101">E</flowPara><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         id="flowPara4103">E</flowPara><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         id="flowPara4105">C</flowPara><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         id="flowPara4107">E</flowPara><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         id="flowPara4109">S</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3792"
        style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0.06px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
@@ -165,7 +165,7 @@
        sodipodi:cy="212"
        sodipodi:rx="35.714287"
        sodipodi:ry="35.714287"
-       d="M 192.85715,247.71429 A 35.714287,35.714287 0 1 1 228.57143,212"
+       d="m 192.85715,247.71429 c -19.72446,0 -35.71429,-15.98983 -35.71429,-35.71429 0,-19.72445 15.98983,-35.71429 35.71429,-35.71429 19.72445,0 35.71428,15.98983 35.71428,35.71429 0,0 0,0 0,0"
        transform="translate(-21.428574,534.06512)"
        sodipodi:start="1.5707963"
        sodipodi:end="6.2831853"
@@ -181,7 +181,7 @@
        sodipodi:end="6.2831853"
        sodipodi:start="1.5707963"
        transform="matrix(-1,0,0,1,825.42857,534.06512)"
-       d="M 192.85715,247.71429 A 35.714287,35.714287 0 1 1 228.57143,212"
+       d="m 192.85715,247.71429 c -19.72446,0 -35.71429,-15.98983 -35.71429,-35.71429 0,-19.72445 15.98983,-35.71429 35.71429,-35.71429 19.72445,0 35.71428,15.98983 35.71428,35.71429 0,0 0,0 0,0"
        sodipodi:ry="35.714287"
        sodipodi:rx="35.714287"
        sodipodi:cy="212"
