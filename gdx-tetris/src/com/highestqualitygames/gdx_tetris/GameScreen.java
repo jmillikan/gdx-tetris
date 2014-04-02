@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
 	final int GRID_WIDTH = 10;
 	
 	// Switches on a mode with a huge 4-line block for manual testing...
-	final boolean EASY = true;
+	final boolean EASY = false;
 
 	// LibGDX graphics & input machinery
 	SpriteBatch batch = new SpriteBatch();
