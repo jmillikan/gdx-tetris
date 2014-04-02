@@ -12,11 +12,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
-	interface GameState {
-		void draw();
-		void update(float delta);
-	}
+	// Some mixed constants...
+	final int BLOCK_SIZE = 20;
 	
+	final int FASTER_COUNT = 1;
+	final float FASTER_RATIO = 0.98f;
+
+	final int GRID_HEIGHT = 22;
+	final int GRID_WIDTH = 10;
+
+	// LibGDX graphics & input machinery
 	SpriteBatch batch = new SpriteBatch();
 	Vector3 touchPoint = new Vector3();
 
@@ -24,41 +29,28 @@ public class GameScreen implements Screen {
 	OrthographicCamera cam;
 	Sprite mm_sprite, block_sprite;
 	BitmapFont font = new BitmapFont();
-	
-	final int BLOCK_SIZE = 20;
-	
-	final int FASTER_COUNT = 1;
-	final float FASTER_RATIO = 0.98f;
-	
+
+	// Game variables
 	float drop_timeout = 1;
 	int rows = 0;
 	int score = 0;
 	
-	// row-major grid, 0 at the bottom, 21/20 hidden at the top
-	final int GRID_HEIGHT = 22;
-	final int GRID_WIDTH = 10;
-	
+	// State handles pause, animations, game over, etc.
+	// Most of the game is in "PieceState", the state when the player is controlling a piece
+	interface GameState {
+		void draw();
+		void update(float delta);
+	}
+
 	GameState state;
 
+	// row-major grid, 0 at the bottom, 21/20 hidden at the top
 	boolean[][] grid = new boolean[GRID_HEIGHT][GRID_WIDTH];
-	
-	// A square array of length 2/3/4
-	boolean[][] piece;
-	
-	// These are interpreted as grid position of the top left corner
-	// of the piece (which give the odd-looking "- i" bits) -
-	// should be changed to bottom left corner at some point
-	int piece_x;
-	int piece_y;
-	
-	float next_drop;
 	
 	public GameScreen(Game game) {
 		this.game = game;
 		
-		state = new RunningState();
-		
-		spawnPiece();
+		state = new PieceState();
 		
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false, 800, 480);
@@ -68,19 +60,71 @@ public class GameScreen implements Screen {
 		
 		block_sprite = new Sprite(Assets.block);
 		block_sprite.setPosition(0, 0);
-		
-		next_drop = drop_timeout;
 	}
-	
-	class RunningState implements GameState {
+
+	// At some point this will pause, allow user to see score, give info, etc.
+	class GameOverState implements GameState {
+		GameState losingState;
+		
+		public GameOverState(GameState losing){
+			losingState = losing;
+		}
+		
 		public void draw(){
-			drawGame();
-			drawPiece();
+			losingState.draw();
 		}
 		
 		public void update(float delta){
+			if(touched(Assets.gameScreenGrid)){
+				game.setScreen(new MenuScreen(game));
+			}
+		}
+	}
+	
+	class PieceState implements GameState {
+		// A square array of length 2/3/4
+		boolean[][] piece = randomPiece();
+		
+		// These are interpreted as grid position of the top left corner
+		// of the piece (which give the odd-looking "- i" bits) -
+		// should be changed to bottom left corner at some point
+		int piece_x = EASY ? 0 : 3;
+		int piece_y = 21;
+		
+		float next_drop = drop_timeout;
+
+		boolean checkEnd = true;
+		
+		public PieceState(){
+			// If we actually do the collision check here, the state won't change.
+			// I'm not sure why.
+		}
+		
+		public void draw(){
+			drawGame();
+			
+			drawBlocks(piece, piece_x, piece_y, true);
+		}
+		
+		public void attachPiece(){
+			int size = piece.length;
+			for(int i = 0; i < size; i++){
+				for(int j = 0; j < size; j++){
+					if(piece[i][j]){
+						grid[piece_y - i][piece_x + j] = true;
+					}
+				}
+			}
+		}
+		
+		public void update(float delta){
+			if(checkEnd && collidesWithGridOrWall(piece, piece_x, piece_y)){
+				GameScreen.this.state = new GameOverState(this);
+			}
+			checkEnd = false;
+			
 			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
-				state = new PausedState(RunningState.this);		
+				state = new PausedState(PieceState.this);		
 			}
 			
 			next_drop -= delta;
@@ -90,6 +134,52 @@ public class GameScreen implements Screen {
 			}
 			
 			handleGameKeys();
+		}
+		
+		public void handleGameKeys() {
+			if (touched(Assets.gameScreenDrop)){
+					dropPiece(true);
+			}
+				
+			if (touched(Assets.gameScreenLeft)){
+				if(!collidesWithGridOrWall(piece, piece_x - 1, piece_y)){
+					piece_x -= 1;
+				}
+			}
+
+			if (touched(Assets.gameScreenRight)){
+				if(!collidesWithGridOrWall(piece, piece_x + 1, piece_y)){
+					piece_x += 1;
+				}
+			}	
+
+			if (touched(Assets.gameScreenRotLeft)){
+				boolean[][] new_piece = GameScreen.this.rotate(false, piece);
+				if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
+					piece = new_piece;
+				}
+			}
+
+			if (touched(Assets.gameScreenRotRight)){ 
+				boolean[][] new_piece = GameScreen.this.rotate(true, piece);
+				if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
+					piece = new_piece;
+				}
+			}
+		}
+		
+		public void dropPiece(boolean byUser){
+			if(!collidesWithGridOrWall(piece, piece_x, piece_y - 1)){
+				piece_y = piece_y - 1;
+				
+				next_drop = drop_timeout - (byUser ? 0 : next_drop);
+			}
+			else {
+				// TODO: Pause game for this...
+				attachPiece();
+
+				state = new ClearingState();
+			}
 		}
 	}
 	
@@ -111,7 +201,7 @@ public class GameScreen implements Screen {
 	}
 	
 	class ClearingState implements GameState {
-		float left = 0.8f;
+		float left = 0.2f;
 		boolean cleared = false;
 		
 		public void draw(){
@@ -130,17 +220,10 @@ public class GameScreen implements Screen {
 			if(left <= 0 && !cleared){
 				clearRows();
 				cleared = true;
-				left = 0.5f;
+				left = 0.2f;
 			}
 			else {
-				spawnPiece();
-				
-				if(collidesWithGridOrWall(piece, piece_x, piece_y)){
-					gameOver();
-				}
-				else {
-					state = new RunningState();
-				}
+				state = new PieceState();
 			}
 		}
 	}
@@ -162,77 +245,6 @@ public class GameScreen implements Screen {
 		return r.contains(touchPoint.x, touchPoint.y);
 	}
 	
-	public void handlePauseKeys(Runnable action) {
-		if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
-			action.run();
-		}
-	}
-
-	public void handleGameKeys() {
-		if (touched(Assets.gameScreenDrop)){
-				dropPiece(true);
-		}
-			
-		if (touched(Assets.gameScreenLeft)){
-			if(!collidesWithGridOrWall(piece, piece_x - 1, piece_y)){
-				piece_x -= 1;
-			}
-		}
-
-		if (touched(Assets.gameScreenRight)){
-			if(!collidesWithGridOrWall(piece, piece_x + 1, piece_y)){
-				piece_x += 1;
-			}
-		}	
-
-		if (touched(Assets.gameScreenRotLeft)){
-			boolean[][] new_piece = this.rotate(false, piece);
-			if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
-				piece = new_piece;
-			}
-		}
-
-		if (touched(Assets.gameScreenRotRight)){ 
-			boolean[][] new_piece = this.rotate(true, piece);
-			if(!collidesWithGridOrWall(new_piece, piece_x, piece_y)){
-				piece = new_piece;
-			}
-		}
-	}
-	
-	public void spawnPiece(){
-		this.piece = randomPiece();
-		this.piece_x = EASY ? 0 : 3;
-		this.piece_y = 21;	
-		
-		next_drop = drop_timeout;
-	}
-	
-	public void attachPiece(){
-		int size = piece.length;
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				if(piece[i][j]){
-					grid[piece_y - i][piece_x + j] = true;
-				}
-			}
-		}
-	}
-	
-	public void dropPiece(boolean byUser){
-		if(!collidesWithGridOrWall(piece, piece_x, piece_y - 1)){
-			piece_y = piece_y - 1;
-			
-			next_drop = drop_timeout - (byUser ? 0 : next_drop);
-		}
-		else {
-			// TODO: Pause game for this...
-			attachPiece();
-
-			state = new ClearingState();
-		}
-	}
-	
 	public void clearRows(){
 		int rowsCleared = 0;
 		
@@ -243,7 +255,6 @@ public class GameScreen implements Screen {
 				if(!grid[i][j]) 
 					full = false;
 			}
-			
 			
 			if(full){
 				// Move rows down...
@@ -269,11 +280,7 @@ public class GameScreen implements Screen {
 
 		score += rowsCleared * rowsCleared * 10;
 	}
-	
-	public void gameOver(){
-		game.setScreen(new MenuScreen(game));
-	}
-	
+
 	private boolean collidesWithGridOrWall(boolean[][] p, int p_x, int p_y){
 		// i is p row, j is p column
 		for(int i = 0; i < p.length; i++){
@@ -302,22 +309,10 @@ public class GameScreen implements Screen {
 		batch.begin();
 		mm_sprite.draw(batch);
 		batch.end();
+
+		drawBlocks(grid, 0, 0, false);
 		
 		batch.begin();
-		
-		float grid_x = Assets.gameScreenGrid.x;
-		float grid_y = Assets.gameScreenGrid.y;
-		
-		// Render all but top two rows
-		for(int i = 0; i < GRID_HEIGHT - 2; i++){
-			for(int j = 0; j < GRID_WIDTH; j++){
-				if(grid[i][j])
-					batch.draw(	
-							block_sprite, 
-							grid_x + j * BLOCK_SIZE,
-							grid_y + i * BLOCK_SIZE);
-			}
-		}
 		
 		Matrix4 bigger = new Matrix4().scale(3.0f, 3.0f, 1.0f);
 		
@@ -332,28 +327,27 @@ public class GameScreen implements Screen {
 
 		batch.end();
 	}
-
-	// Do not call before drawGame
-	public void drawPiece(){
+	
+	// flip_y because the grid is stored upside down from the piece.
+	// This is not really a good thing.
+	public void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
 		batch.begin();
 
 		float grid_x = Assets.gameScreenGrid.x;
 		float grid_y = Assets.gameScreenGrid.y;
 		
-		int size = piece.length;
-		for(int i = 0; i < size; i++){
-			for(int j = 0; j < size; j++){
-				if(piece[i][j] && piece_y - i < GRID_HEIGHT - 2){
+		for(int i = 0; i < blocks.length; i++){
+			for(int j = 0; j < blocks[i].length; j++){
+				if(blocks[i][j] && (y + (flip_y ? -i : i)) < GRID_HEIGHT - 2){
 					batch.draw(
 							block_sprite, 
-							grid_x + BLOCK_SIZE * (piece_x + j),
-							grid_y + BLOCK_SIZE * (piece_y - i));
+							grid_x + BLOCK_SIZE * (x + j),
+							grid_y + BLOCK_SIZE * (y + (flip_y ? -i : i)));
 				}
 			}
 		}
 		
 		batch.end();
-
 	}
 
 	@Override
