@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="72"
+   height="72"
+   id="svg4254"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="New document 8">
+  <defs
+     id="defs4256">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4967">
+      <rect
+         style="fill:#000000;fill-opacity:1;stroke:none"
+         id="rect4969"
+         width="20"
+         height="20"
+         x="78.299538"
+         y="928.87988" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="85.36976"
+     inkscape:cy="49.552563"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1360"
+     inkscape:window-height="744"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4259">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-980.36218)">
+    <image
+       y="928.87988"
+       x="78.299538"
+       id="image4454"
+       xlink:href="file:///home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/block.png"
+       height="32"
+       width="32"
+       clip-path="url(#clipPath4967)"
+       transform="translate(-80.307127,-31.314729)" />
+    <image
+       transform="translate(-62.299538,58.482297)"
+       clip-path="url(#clipPath4967)"
+       width="32"
+       height="32"
+       xlink:href="file:///home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/block.png"
+       id="image4971"
+       x="78.299538"
+       y="928.87988" />
+    <image
+       y="928.87988"
+       x="78.299538"
+       id="image4973"
+       xlink:href="file:///home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/block.png"
+       height="32"
+       width="32"
+       clip-path="url(#clipPath4967)"
+       transform="translate(-62.299538,78.482297)" />
+    <image
+       transform="translate(-62.299538,98.482297)"
+       clip-path="url(#clipPath4967)"
+       width="32"
+       height="32"
+       xlink:href="file:///home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/block.png"
+       id="image4975"
+       x="78.299538"
+       y="928.87988" />
+    <image
+       y="928.87988"
+       x="78.299538"
+       id="image4977"
+       xlink:href="file:///home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/block.png"
+       height="32"
+       width="32"
+       clip-path="url(#clipPath4967)"
+       transform="translate(-42.299538,58.482297)" />
+    <image
+       transform="translate(-42.299538,78.482297)"
+       clip-path="url(#clipPath4967)"
+       width="32"
+       height="32"
+       xlink:href="file:///home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/block.png"
+       id="image4979"
+       x="78.299538"
+       y="928.87988" />
+  </g>
+</svg>
