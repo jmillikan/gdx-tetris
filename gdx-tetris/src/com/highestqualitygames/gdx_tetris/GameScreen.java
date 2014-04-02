@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
 	final int GRID_WIDTH = 10;
 	
 	// Switches on a mode with a huge 4-line block for manual testing...
-	final boolean EASY = false;
+	final boolean EASY = true;
 
 	// LibGDX graphics & input machinery
 	SpriteBatch batch = new SpriteBatch();
@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
 
 	Game game;
 	OrthographicCamera cam;
-	Sprite mm_sprite, block_sprite;
+	Sprite mm_sprite, block_sprite, over_sprite;
 	BitmapFont font = new BitmapFont();
 
 	// Game variables
@@ -61,6 +61,9 @@ public class GameScreen implements Screen {
 		mm_sprite = new Sprite(Assets.gameScreen);
 		mm_sprite.setPosition(0, 0);
 		
+		over_sprite = new Sprite(Assets.overScreen);
+		over_sprite.setPosition(0, 0);
+		
 		block_sprite = new Sprite(Assets.block);
 		block_sprite.setPosition(0, 0);
 	}
@@ -75,11 +78,21 @@ public class GameScreen implements Screen {
 		
 		public void draw(){
 			losingState.draw();
+			
+			batch.begin();
+			
+			over_sprite.draw(batch);
+			
+			batch.end();
 		}
 		
 		public void update(float delta){
-			if(touched(Assets.gameScreenGrid)){
+			if(touched(Assets.overMenu)){
 				game.setScreen(new MenuScreen(game));
+			}
+			
+			if(touched(Assets.overRestart)){
+				game.setScreen(new GameScreen(game));
 			}
 		}
 	}
@@ -122,10 +135,15 @@ public class GameScreen implements Screen {
 		}
 		
 		public void update(float delta){
-			if(checkEnd && collidesWithGridOrWall(piece, piece_x, piece_y)){
-				GameScreen.this.state = new GameOverState(this);
+			// Note above...
+			if(checkEnd){
+				if(collidesWithGridOrWall(piece, piece_x, piece_y)){
+					state = new GameOverState(this);
+					
+					return;
+				}
+				checkEnd = false;
 			}
-			checkEnd = false;
 			
 			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
 				state = new PausedState(PieceState.this);		
