@@ -1,9 +1,9 @@
 package com.highestqualitygames.gdx_tetris;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -16,6 +16,8 @@ public class Assets {
 	public static Rectangle gameScreenRotLeft, gameScreenRotRight, gameScreenLeft, gameScreenRight,
 		gameScreenGrid, gameScreenDrop, gameScreenPause1, gameScreenPause2, overMenu, overRestart,
 		pauseMenu, pauseResume;
+	
+	public static BitmapFont font;
 	
 	public static void load() {
 		Texture texture;
@@ -59,5 +61,8 @@ public class Assets {
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		block = new TextureRegion(texture, 0, 0, 20, 20);
+		
+		font = new BitmapFont(Gdx.files.internal("data/ubuntu-mono-48.fnt"),
+		         Gdx.files.internal("data/ubuntu-mono-48.png"), false);
 	}
 }

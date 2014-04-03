@@ -22,7 +22,7 @@ public class GameScreen implements Screen {
 	final int GRID_WIDTH = 10;
 	
 	// Switches on a mode with a huge 4-line block for manual testing...
-	final boolean EASY = false;
+	final boolean EASY = true;
 
 	// LibGDX graphics & input machinery
 	SpriteBatch batch = new SpriteBatch();
@@ -159,11 +159,6 @@ public class GameScreen implements Screen {
 
 		boolean checkEnd = true;
 		
-		public PieceState(){
-			// If we actually do the collision check here, the state won't change.
-			// I'm not sure why.
-		}
-		
 		public void draw(){
 			drawGame();
 			
@@ -183,7 +178,8 @@ public class GameScreen implements Screen {
 		}
 		
 		public void update(float delta){
-			// Note above...
+			// If this check is done in the constructor, it's possible for other state to be overwritten
+			// (e.g. by my own sloppiness)
 			if(checkEnd){
 				if(collidesWithGridOrWall(piece, piece_x, piece_y)){
 					state = new GameOverState(this);
@@ -338,16 +334,13 @@ public class GameScreen implements Screen {
 
 		drawBlocks(grid, 0, 0, false);
 
-		Matrix4 bigger = new Matrix4().scale(3.0f, 3.0f, 1.0f);
-		
-		batch.setTransformMatrix(bigger);
-		String scoreString = String.format("%06d", score);
-	
+		// GWT doesn't support normal string formatting. Rather than get into a mess, don't use string formatting...
+		int s = score;
 		for(int i = 0; i < 6; i++){
-			font.draw(batch, scoreString.subSequence(i, i+1), 750f / 3.0f, (400.0f - i * 40.0f) / 3.0f);			
+			int d = s % 10;
+			Assets.font.draw(batch, Integer.toString(d), 750f, (260.0f + i * 40.0f));
+			s = s / 10;
 		}
-
-		batch.setTransformMatrix(new Matrix4().idt());
 	}
 	
 	// flip_y because the grid is stored upside down from the piece.
@@ -368,14 +361,11 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-		
-		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
