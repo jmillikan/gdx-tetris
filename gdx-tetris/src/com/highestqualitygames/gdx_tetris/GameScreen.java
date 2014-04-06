@@ -87,6 +87,10 @@ public class GameScreen implements Screen {
 							new PieceBagFactory(threePieces));
 			break;
 		}
+
+		// hack hack hack...
+		// Otherwise we might get extra keystrokes here. 
+		Assets.clearKeyDongles();
 						
 		// PieceState is closed over pieceFactory.
 		state = new PieceState();
@@ -302,6 +306,10 @@ public class GameScreen implements Screen {
 	}
 	
 	boolean touched(com.badlogic.gdx.math.Rectangle r){
+		// Early exit: Keyboard commands for "testing"
+		if (Assets.isKeyDonglePressed(r))
+			return true;
+		
 		if (!Gdx.input.justTouched())
 			return false;
 		
