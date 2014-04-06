@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
 	// Graphics constants
@@ -18,8 +19,8 @@ public class GameScreen implements Screen {
 	final int FASTER_COUNT = 1;
 	final float FASTER_RATIO = 0.98f;
 
-	final int GRID_HEIGHT = 22;
-	final int GRID_WIDTH = 10;
+	final int GRID_HEIGHT = 24;
+	final int GRID_WIDTH = 11;
 	
 	// Switches on a mode with a huge 4-line block for 0manual testing...
 	final boolean EASY = false;
@@ -188,7 +189,7 @@ public class GameScreen implements Screen {
 		// of the piece (which give the odd-looking "- i" bits) -
 		// should be changed to bottom left corner at some point
 		int piece_x = GRID_WIDTH / 2 - piece[0].length / 2; 
-		int piece_y = 21;
+		int piece_y = 23;
 		
 		float next_drop = drop_timeout;
 
@@ -385,9 +386,16 @@ public class GameScreen implements Screen {
 	// flip_y because the grid is stored upside down from the piece.
 	// This is not really a good thing.
 	void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
-		float grid_x = Assets.gameScreenGrid.x;
-		float grid_y = Assets.gameScreenGrid.y;
+		float s = 10.0f / 11.0f;
+
+		float grid_x = Assets.gameScreenGrid.x / s;
+		float grid_y = Assets.gameScreenGrid.y / s;
 		
+		Matrix4 grid_scale = new Matrix4();
+		grid_scale.scale(s, s, 1.0f);
+		
+		batch.setTransformMatrix(grid_scale);
+				
 		batch.setColor(Assets.color1);
 		
 		for(int i = 0; i < blocks.length; i++){
@@ -400,6 +408,8 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
+		
+		batch.setTransformMatrix(new Matrix4().idt());
 	}
 
 	boolean[][] rotate(boolean right, boolean[][] piece){
@@ -459,8 +469,8 @@ public class GameScreen implements Screen {
 	
 	class EasyFactory implements PieceFactory {
 		public boolean[][] nextPiece(){
-			boolean easy[][] = new boolean[10][10];
-			for(int i = 0; i < 10;i++){
+			boolean easy[][] = new boolean[GRID_WIDTH][GRID_WIDTH];
+			for(int i = 0; i < GRID_WIDTH;i++){
 				easy[0][i] = true;
 				easy[1][i] = true;
 				easy[2][i] = true;
@@ -517,14 +527,6 @@ public class GameScreen implements Screen {
 			{O,X,X},
 			{O,O,O}
 		},
-		{{X,X,X},
-			{X,X,O},
-			{O,O,O}
-		},
-		{{X,X,X},
-			{O,X,X},
-			{O,O,O}
-		},
 		{{O,O,O,O},
 			{X,X,O,O},
 			{O,X,X,X},
@@ -534,14 +536,6 @@ public class GameScreen implements Screen {
 			{O,X,X,X},
 			{X,X,O,O},
 			{O,O,O,O}
-		},
-		{{X,O,O},
-			{X,X,X},
-			{O,X,O}
-		},
-		{{O,O,X},
-			{X,X,X},
-			{O,X,O}
 		},
 		{{X,X,X},
 			{X,O,O},
@@ -550,6 +544,15 @@ public class GameScreen implements Screen {
 		{{X,X,O},
 			{O,X,X},
 			{O,O,X}
+
+		},
+		{{X,O,O},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{O,O,X},
+			{X,X,X},
+			{O,X,O}
 		},
 		{{O,O,O,O,O},
 			{X,X,X,X,X},
@@ -560,30 +563,32 @@ public class GameScreen implements Screen {
 	};
 	
 	static boolean[][][] modFives = new boolean[][][]{
+		{{O,O,O,O,O},
+			{X,X,X,X,X},
+			{O,O,O,O,O},
+			{O,O,O,O,O},
+			{O,O,O,O,O}
+		},
 		{{X,O,X},{X,X,X},{O,O,O}},
-		{{O,O,O,O},
-			{X,X,X,X},
-			{O,O,O,X},
-			{O,O,O,O}
-		},
-		{{O,O,O,O},
-			{O,O,O,X},
-			{X,X,X,X},
-			{O,O,O,O}
-		},
 		{{X,X,X},
 			{O,X,O},
 			{O,X,O}
 		},
-		{{O,X,O},
-			{X,X,X},
-			{O,X,O}
-		},
 		{{O,O,O,O},
 			{X,X,X,X},
 			{O,O,X,O},
 			{O,O,O,O}
-				
+		},
+		{{O,O,O,O},
+			{X,X,X,X},
+			{O,O,O,X},
+			{O,O,O,O}
+
+		},
+		{{O,O,O,O},
+			{O,O,O,X},
+			{X,X,X,X},
+			{O,O,O,O}
 		},
 		{{O,O,O,O},
 			{O,O,X,O},
@@ -593,7 +598,16 @@ public class GameScreen implements Screen {
 		{{O,X,O},
 			{X,X,X},
 			{O,X,O}
+		},
+		{{X,X,O},
+			{O,X,O},
+			{O,X,X}
+		},
+		{{O,X,X},
+			{O,X,O},
+			{X,X,O}
 		}
+
 	};
 	
 	static boolean[][][] classicPieces = new boolean[][][]{
