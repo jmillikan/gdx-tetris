@@ -9,20 +9,20 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
-	// Some mixed constants...
+	// Graphics constants
 	final int BLOCK_SIZE = 20;
 	
+	// Game constants
 	final int FASTER_COUNT = 1;
 	final float FASTER_RATIO = 0.98f;
 
 	final int GRID_HEIGHT = 22;
 	final int GRID_WIDTH = 10;
 	
-	// Switches on a mode with a huge 4-line block for manual testing...
-	final boolean EASY = true;
+	// Switches on a mode with a huge 4-line block for 0manual testing...
+	final boolean EASY = false;
 
 	// LibGDX graphics & input machinery
 	SpriteBatch batch = new SpriteBatch();
@@ -47,12 +47,47 @@ public class GameScreen implements Screen {
 
 	GameState state;
 
+	// The main variance in the game modes - how the next piece comes about.
+	// Might be renamed GameMode later and come to encapsulate way more of the behavior.
+	interface PieceFactory {
+		boolean[][] nextPiece();
+	}
+
+	PieceFactory pieceFactory;
+	
+	public enum GameType {
+		Classic, EasyFives, ThreesAndFives, Test
+	}
+	
+	GameType gameType;
+
 	// row-major grid, 0 at the bottom, 21/20 hidden at the top
 	boolean[][] grid = new boolean[GRID_HEIGHT][GRID_WIDTH];
 	
-	public GameScreen(Game game) {
+	public GameScreen(Game game, GameType type) {
 		this.game = game;
+		this.gameType = type;
 		
+		switch(gameType){
+		case Test:
+			pieceFactory = new EasyFactory();
+			break;
+		case Classic:
+			pieceFactory = new PieceBagFactory(classicPieces);
+			break;
+		case EasyFives:
+			pieceFactory = new PieceBagFactory(niceFives);
+			break;
+		case ThreesAndFives:
+			pieceFactory = new AlternatingFactories(
+					new AlternatingFactories(
+							new PieceBagFactory(niceFives),
+							new PieceBagFactory(modFives)),
+							new PieceBagFactory(threePieces));
+			break;
+		}
+						
+		// PieceState is closed over pieceFactory.
 		state = new PieceState();
 		
 		cam = new OrthographicCamera();
@@ -82,7 +117,7 @@ public class GameScreen implements Screen {
 		public void draw(){
 			losingState.draw();
 
-			over_sprite.draw(batch);
+			batch.draw(over_sprite, 0, 0);
 		}
 		
 		public void update(float delta){
@@ -91,7 +126,7 @@ public class GameScreen implements Screen {
 			}
 			
 			if(touched(Assets.overRestart)){
-				game.setScreen(new GameScreen(game));
+				game.setScreen(new GameScreen(game, gameType));
 			}
 		}
 	}
@@ -105,7 +140,7 @@ public class GameScreen implements Screen {
 		public void draw(){
 			returnState.draw();
 				
-			pause_sprite.draw(batch);
+			batch.draw(pause_sprite, 0, 0);
 		}
 		
 		public void update(float delta){
@@ -147,12 +182,12 @@ public class GameScreen implements Screen {
 
 	class PieceState implements GameState {
 		// A square array of length 2/3/4
-		boolean[][] piece = randomPiece();
+		boolean[][] piece = pieceFactory.nextPiece();
 		
 		// These are interpreted as grid position of the top left corner
 		// of the piece (which give the odd-looking "- i" bits) -
 		// should be changed to bottom left corner at some point
-		int piece_x = EASY ? 0 : 3;
+		int piece_x = GRID_WIDTH / 2 - piece[0].length / 2; 
 		int piece_y = 21;
 		
 		float next_drop = drop_timeout;
@@ -257,6 +292,8 @@ public class GameScreen implements Screen {
 
 		batch.begin();
 		
+		batch.setColor(Assets.color1);
+		
 		state.draw();
 		state.update(delta);
 		
@@ -330,8 +367,10 @@ public class GameScreen implements Screen {
 	}
 	
 	void drawGame(){
-		mm_sprite.draw(batch);
+		batch.setColor(Assets.color2);
+		batch.draw(mm_sprite,  0,  0);
 
+		// calls setColor. Need to disentangle this eventually.
 		drawBlocks(grid, 0, 0, false);
 
 		// GWT doesn't support normal string formatting. Rather than get into a mess, don't use string formatting...
@@ -346,10 +385,10 @@ public class GameScreen implements Screen {
 	// flip_y because the grid is stored upside down from the piece.
 	// This is not really a good thing.
 	void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
-		
-
 		float grid_x = Assets.gameScreenGrid.x;
 		float grid_y = Assets.gameScreenGrid.y;
+		
+		batch.setColor(Assets.color1);
 		
 		for(int i = 0; i < blocks.length; i++){
 			for(int j = 0; j < blocks[i].length; j++){
@@ -361,6 +400,19 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
+	}
+
+	boolean[][] rotate(boolean right, boolean[][] piece){
+		// Assume that piece is a square (not ragged or rectangular)
+		boolean[][] new_piece = new boolean[piece.length][piece[0].length];
+		
+		for(int i = 0; i < piece.length; i++){
+			for(int j = 0; j < piece.length; j++){
+				new_piece[right ? j : piece.length - 1 - j][right ? piece.length - 1 - i : i] = piece[i][j]; 
+			}
+		}
+		
+		return new_piece;
 	}
 
 	@Override
@@ -397,15 +449,154 @@ public class GameScreen implements Screen {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	final static boolean X = true;
+	final static boolean O = false;
 
 	// PIECES
 	// Pieces are square arrays of booleans, true for "block here".
 	// To keep things 'simple', never write over pieces. Instead, copy when necessary.
 	
-	final static boolean X = true;
-	final static boolean O = false;
+	class EasyFactory implements PieceFactory {
+		public boolean[][] nextPiece(){
+			boolean easy[][] = new boolean[10][10];
+			for(int i = 0; i < 10;i++){
+				easy[0][i] = true;
+				easy[1][i] = true;
+				easy[2][i] = true;
+				easy[3][i] = true;
+			}
 
-	static boolean[][][] pieces = new boolean[][][]{
+			return easy;
+		}
+	}
+
+	// Evenly, randomly from a predetermined list
+	class PieceBagFactory implements PieceFactory {
+		// An array of pieces
+		boolean[][][] pieces;
+		
+		PieceBagFactory(boolean[][][] pieces) {
+			this.pieces = pieces;
+		}
+		
+		public boolean[][] nextPiece() {
+			return pieces[(int) Math.floor(Math.random() * pieces.length)];			
+		}
+	}
+	
+	class AlternatingFactories implements PieceFactory {
+		PieceFactory fa, fb;
+		boolean a = false;
+		
+		AlternatingFactories(PieceFactory fa, PieceFactory fb){
+			this.fa = fa;
+			this.fb = fb;
+		}
+		
+		public boolean[][] nextPiece(){
+			a = !a;
+			
+			return a ? fa.nextPiece() : fb.nextPiece();
+		}
+	}
+	
+	static boolean[][][] threePieces = new boolean[][][]{
+		{{O,X,O},
+			{O,X,O},
+			{O,X,O}},
+			{{X,O},{X,X}}
+	};
+	
+	static boolean[][][] niceFives = new boolean[][][]{
+		{{X,X,X},
+			{X,X,O},
+			{O,O,O}
+		},
+		{{X,X,X},
+			{O,X,X},
+			{O,O,O}
+		},
+		{{X,X,X},
+			{X,X,O},
+			{O,O,O}
+		},
+		{{X,X,X},
+			{O,X,X},
+			{O,O,O}
+		},
+		{{O,O,O,O},
+			{X,X,O,O},
+			{O,X,X,X},
+			{O,O,O,O}
+		},
+		{{O,O,O,O},
+			{O,X,X,X},
+			{X,X,O,O},
+			{O,O,O,O}
+		},
+		{{X,O,O},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{O,O,X},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{X,X,X},
+			{X,O,O},
+			{X,O,O}
+		},
+		{{X,X,O},
+			{O,X,X},
+			{O,O,X}
+		},
+		{{O,O,O,O,O},
+			{X,X,X,X,X},
+			{O,O,O,O,O},
+			{O,O,O,O,O},
+			{O,O,O,O,O}
+		}
+	};
+	
+	static boolean[][][] modFives = new boolean[][][]{
+		{{X,O,X},{X,X,X},{O,O,O}},
+		{{O,O,O,O},
+			{X,X,X,X},
+			{O,O,O,X},
+			{O,O,O,O}
+		},
+		{{O,O,O,O},
+			{O,O,O,X},
+			{X,X,X,X},
+			{O,O,O,O}
+		},
+		{{X,X,X},
+			{O,X,O},
+			{O,X,O}
+		},
+		{{O,X,O},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{O,O,O,O},
+			{X,X,X,X},
+			{O,O,X,O},
+			{O,O,O,O}
+				
+		},
+		{{O,O,O,O},
+			{O,O,X,O},
+			{X,X,X,X},
+			{O,O,O,O}
+		},
+		{{O,X,O},
+			{X,X,X},
+			{O,X,O}
+		}
+	};
+	
+	static boolean[][][] classicPieces = new boolean[][][]{
 		{{O,X,O,O},
 		 {O,X,O,O},
 		 {O,X,O,O},
@@ -428,34 +619,4 @@ public class GameScreen implements Screen {
 			{O,X,X},
 			{O,O,X}}
 		};
-	
-	// Return a random piece in first position
-	boolean[][] randomPiece(){
-		if(EASY) {
-			boolean easy[][] = new boolean[10][10];
-			for(int i = 0; i < 10;i++){
-				easy[0][i] = true;
-				easy[1][i] = true;
-				easy[2][i] = true;
-				easy[3][i] = true;
-			}
-			
-			return easy;
-		}
-		
-		return pieces[(int) Math.floor(Math.random() * pieces.length)];
-	}
-	
-	boolean[][] rotate(boolean right, boolean[][] piece){
-		// Assume that piece is a square (not ragged or rectangular)
-		boolean[][] new_piece = new boolean[piece.length][piece[0].length];
-		
-		for(int i = 0; i < piece.length; i++){
-			for(int j = 0; j < piece.length; j++){
-				new_piece[right ? j : piece.length - 1 - j][right ? piece.length - 1 - i : i] = piece[i][j]; 
-			}
-		}
-		
-		return new_piece;
-	}
 }

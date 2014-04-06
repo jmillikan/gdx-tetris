@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="542.55308"
+     inkscape:cx="291.12451"
      inkscape:cy="144.47226"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -78,10 +78,19 @@
      id="layer1"
      transform="translate(0,-540.36218)"
      style="display:inline">
+    <rect
+       style="fill:#f0f0f0;fill-opacity:1;stroke:#2d2d2d;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3917"
+       width="1080"
+       height="587.14288"
+       x="-25.714268"
+       y="513.07648"
+       rx="60.714298"
+       ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot3004"
-       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215000000026%;letter-spacing:0.01413087000000000px;word-spacing:0px;fill:#141414;fill-opacity:1;stroke:none;font-family:Sawasdee;-inkscape-font-specification:Sawasdee"
        transform="matrix(2.2784227,0,0,2.2784227,-487.00724,534.09909)"
        inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
        inkscape:export-xdpi="90"
@@ -92,18 +101,18 @@
            height="202.88019"
            x="66.443512"
            y="20.54105"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215%;letter-spacing:0.01413087px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:79.00000215000000026%;letter-spacing:0.01413087000000000px;font-family:Sawasdee;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1" /></flowRegion><flowPara
          id="flowPara3817"
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee">P</flowPara><flowPara
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215000000026%;letter-spacing:0.00235514000000000px;text-anchor:middle;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1">P</flowPara><flowPara
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215000000026%;letter-spacing:0.00235514000000000px;text-anchor:middle;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1"
          id="flowPara4101">E</flowPara><flowPara
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215000000026%;letter-spacing:0.00235514000000000px;text-anchor:middle;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1"
          id="flowPara4103">E</flowPara><flowPara
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215000000026%;letter-spacing:0.00235514000000000px;text-anchor:middle;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1"
          id="flowPara4105">C</flowPara><flowPara
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215000000026%;letter-spacing:0.00235514000000000px;text-anchor:middle;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1"
          id="flowPara4107">E</flowPara><flowPara
-         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215%;letter-spacing:0.00235514px;text-anchor:middle;-inkscape-font-specification:Sawasdee"
+         style="font-style:normal;font-weight:normal;text-align:center;line-height:79.00000215000000026%;letter-spacing:0.00235514000000000px;text-anchor:middle;-inkscape-font-specification:Sawasdee;fill:#141414;fill-opacity:1"
          id="flowPara4109">S</flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot3792"
@@ -117,7 +126,7 @@
            y="39.57349"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Sawasdee;-inkscape-font-specification:Sawasdee" /></flowRegion><flowPara
          id="flowPara3798" /></flowRoot>    <rect
-       style="fill:none;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#fafafa;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
        id="rect3902"
        width="134.28572"
        height="140"
@@ -129,23 +138,23 @@
        height="140"
        width="134.28572"
        id="rect3905"
-       style="fill:none;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="fill:#fafafa;stroke:#000000;stroke-opacity:1;display:inline;stroke-width:3;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1" />
     <rect
        y="676.06512"
        x="104.28571"
        height="140"
        width="134.28572"
        id="rect3907"
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+       style="fill:#fafafa;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;fill-opacity:1" />
     <rect
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       style="fill:#fafafa;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;fill-opacity:1"
        id="rect3909"
        width="134.28572"
        height="140"
        x="564.28571"
        y="676.06512" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       style="fill:#f0f0f0;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
        d="m 221.42857,414.85714 0,-78.57143 -65.71429,40 z"
        id="path3913"
        inkscape:connector-curvature="0"
@@ -156,7 +165,7 @@
        inkscape:connector-curvature="0"
        id="path3915"
        d="m 579.99999,955.21932 0,-78.57143 65.71429,40 z"
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="fill:#f0f0f0;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1" />
     <path
        sodipodi:type="arc"
        style="fill:none;stroke:#000000;stroke-width:3;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -171,7 +180,7 @@
        sodipodi:end="6.2831853"
        sodipodi:open="true" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#f0f0f0;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
        d="m 171.13948,798.07494 0,-33.1447 27.72102,16.87366 z"
        id="path3923"
        inkscape:connector-curvature="0"
@@ -194,16 +203,16 @@
        inkscape:connector-curvature="0"
        id="path3927"
        d="m 632.86051,798.07494 0,-33.1447 -27.72102,16.87366 z"
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+       style="fill:#f0f0f0;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1" />
     <rect
-       style="fill:#9d9d9d;fill-opacity:0;stroke:#000000;stroke-width:2.36817265;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#fafafa;fill-opacity:1;stroke:#000000;stroke-width:2.36817264999999999;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3017"
        width="242.06041"
        height="92.060402"
        x="278.96982"
        y="917.76056" />
     <path
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#f0f0f0;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:1"
        d="m 360.7143,933.64789 78.57143,0 -40,65.71429 z"
        id="path3806"
        inkscape:connector-curvature="0"
@@ -214,12 +223,12 @@
        height="410.62863"
        width="209.20009"
        id="rect3782"
-       style="fill:#ffffff;stroke:#000000;stroke-width:0.79991698000000000;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:0.5022831"
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79991698000000000;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;fill-opacity:0.74429226"
        inkscape:export-filename="/home/jmillikan/work/gdx-tetris/gdx-tetris-android/assets/data/main-screen.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       style="fill:#fafafa;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;fill-opacity:1"
        id="rect3808"
        width="135.08223"
        height="75.08223"
@@ -247,7 +256,7 @@
        height="75.08223"
        width="135.08223"
        id="rect3848"
-       style="fill:none;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline" />
+       style="fill:#fafafa;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline;fill-opacity:1" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot3850"

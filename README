@@ -1,3 +1,3 @@
 A simple Tetris written as an exercise for libGDX, targeted at Android. It (probably) uses SRS piece rotations but no other 'fancy' features, and currently does not keep score or even pause. The game is hardcoded to operate at 800x480 and will stretch under other aspects.
 
-As per all game with the basic libGDX games, run Main in the gdx-tetris-desktop to run locally or in the gdx-tetris-android project to run on Android. No other targets have been tested.
+Import in Eclipse and then run Main in the gdx-tetris-desktop project to run locally or in the gdx-tetris-android project to run on Android. No other targets have been tested.

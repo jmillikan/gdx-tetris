@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.graphics.Color;
 
 public class Assets {
 	public static TextureRegion gameScreen, mainScreen, block, overScreen, pauseScreen;
 	
 	// These rectangles are relative to the BG (and so will need adjusted if the camera is not 1:1 with it)
-	public static Rectangle mainScreenStart;
+	public static Rectangle mainScreenStart, mainScreenMode1, mainScreenMode2, mainScreenMode3, mainScreenTest;
 	
 	public static Rectangle gameScreenRotLeft, gameScreenRotRight, gameScreenLeft, gameScreenRight,
 		gameScreenGrid, gameScreenDrop, gameScreenPause1, gameScreenPause2, overMenu, overRestart,
@@ -19,7 +20,23 @@ public class Assets {
 	
 	public static BitmapFont font;
 	
-	public static void load() {
+	public static Color color1, color2, color1a, color1b;
+	
+	static Color rgb(int r, int g, int b){
+		return new Color(r / 255f, g / 255f, b / 255f, 1.0f);
+	}
+	
+	static Color bright(Color c){
+		return c.lerp(1f, 1f, 1f, 1f, 0.5f);
+	}
+	
+	public static void load(){
+		// http://colorschemedesigner.com/#3i61TuRhNw0w0
+		color1 = rgb(47,170,170);
+		color2 = rgb(198,120,55);
+		color1a = rgb(13,38,95);
+		color1b = rgb(4,113,4);
+		
 		Texture texture;
 		
 		texture = new Texture(Gdx.files.internal("data/game-screen.png"));
@@ -41,7 +58,12 @@ public class Assets {
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		mainScreen = new TextureRegion(texture, 0, 0, 800, 480);
-		mainScreenStart = new Rectangle(120, 187, 320, 84);
+		mainScreenStart = new Rectangle(583, 14, 164, 84);
+		mainScreenMode1 = new Rectangle(128, 337, 250, 122);
+		mainScreenMode2 = new Rectangle(128, 205, 250, 122);
+		mainScreenMode3 = new Rectangle(128, 71, 250, 122);
+		mainScreenTest = new Rectangle(280, 10, 100, 30);
+		
 
 		texture = new Texture(Gdx.files.internal("data/game-over.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
