@@ -19,9 +19,9 @@ public class Assets {
 	// These rectangles are relative to the BG (and so will need adjusted if the camera is not 1:1 with it)
 	public static Rectangle mainScreenStart, mainScreenMode1, mainScreenMode2, mainScreenMode3, mainScreenTest;
 	
+	public static Rectangle gameScreenPreview, gameScreenPreview2, gameScreenGrid;
 	public static Rectangle gameScreenRotLeft, gameScreenRotRight, gameScreenLeft, gameScreenRight,
-		gameScreenGrid, gameScreenDrop, gameScreenPause1, gameScreenPause2, overMenu, overRestart,
-		pauseMenu, pauseResume;
+		gameScreenDrop, gameScreenPause1, overMenu, overRestart, pauseMenu, pauseResume;
 	
 	public static BitmapFont font;
 	
@@ -35,6 +35,15 @@ public class Assets {
 	
 	static Color bright(Color c){
 		return c.lerp(1f, 1f, 1f, 1f, 0.5f);
+	}
+	
+	// So I don't have to think when copying these from Inkscape
+	static Rectangle grid_r(float x, float y, float w, float h, float blocks_wide, float blocks_high){
+		return new Rectangle(x + 3, y - 32 + 3, (w - 6) / blocks_wide, (h - 6) / blocks_high);
+	}
+	
+	static Rectangle button_r(float x, float y, float w, float h){
+		return new Rectangle(x, y  - 32f, w, h);
 	}
 	
 	public static void load(){
@@ -56,16 +65,20 @@ public class Assets {
 		gameScreenRotRight = new Rectangle(562, 200, 138, 143); 
 		gameScreenLeft = new Rectangle(123, 32, 138, 143); 
 		gameScreenRight = new Rectangle(542, 32, 138, 143); 
-		gameScreenGrid = new Rectangle(300, 39, 10 * 20, 22 * 20);
+		// Note: The width and height store a block size rather than... uh, something reasonable
+		gameScreenGrid = new Rectangle(300, 39, 20f * (10f/11f), 20f * (10f/11f));
 		gameScreenDrop = new Rectangle(277, 10, 243, 94);
 		gameScreenPause1 = new Rectangle(102, 380, 138, 78);
-		gameScreenPause2 = new Rectangle(562, 380, 138, 78);
+		
 		keyDongles.put(gameScreenRotLeft, new int[]{Keys.SLASH, Keys.Z});
 		keyDongles.put(gameScreenRotRight, new int[]{Keys.SHIFT_RIGHT, Keys.X});
 		keyDongles.put(gameScreenDrop, new int[]{Keys.DOWN, Keys.S});
 		keyDongles.put(gameScreenLeft, new int[]{Keys.LEFT, Keys.A});
 		keyDongles.put(gameScreenRight, new int[]{Keys.RIGHT, Keys.D});
 		keyDongles.put(gameScreenPause1, new int[]{Keys.P});
+		
+		gameScreenPreview = grid_r(510, 390, 95, 95, 5, 5);
+		gameScreenPreview2 = grid_r(610, 417, 74, 74, 5, 5);
 		
 		texture = new Texture(Gdx.files.internal("data/main-screen.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -107,6 +120,7 @@ public class Assets {
 		currentlyPressed = new HashSet<Integer>();
 	}
 	
+	// Doesn't belong in assets - more like a "platform" file or something
 	public static boolean isKeyDonglePressed(Rectangle r){
 		if(!keyDongles.containsKey(r))
 			return false;
@@ -126,4 +140,137 @@ public class Assets {
 		
 		return false;
 	}
+	
+	final static boolean X = true;
+	final static boolean O = false;
+	
+	public static boolean[][][] threePieces = new boolean[][][]{
+		{{O,X,O},
+			{O,X,O},
+			{O,X,O}},
+			{{X,O},{X,X}}
+	};
+	
+	public static boolean[][][] niceFives = new boolean[][][]{
+		{{X,X,X},
+			{X,X,O},
+			{O,O,O}
+		},
+		{{X,X,X},
+			{O,X,X},
+			{O,O,O}
+		},
+		{{O,O,O,O},
+			{X,X,O,O},
+			{O,X,X,X},
+			{O,O,O,O}
+		},
+		{{O,O,O,O},
+			{O,X,X,X},
+			{X,X,O,O},
+			{O,O,O,O}
+		},
+		{{X,X,X},
+			{X,O,O},
+			{X,O,O}
+		},
+		{{X,X,O},
+			{O,X,X},
+			{O,O,X}
+
+		},
+		{{X,O,O},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{O,O,X},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{O,O,O,O,O},
+			{X,X,X,X,X},
+			{O,O,O,O,O},
+			{O,O,O,O,O},
+			{O,O,O,O,O}
+		},
+		{{O,O,O,O,O},
+			{X,X,X,X,X},
+			{O,O,O,O,O},
+			{O,O,O,O,O},
+			{O,O,O,O,O}
+		}
+	};
+	
+	public static boolean[][][] modFives = new boolean[][][]{
+		{{O,O,O,O,O},
+			{X,X,X,X,X},
+			{O,O,O,O,O},
+			{O,O,O,O,O},
+			{O,O,O,O,O}
+		},
+		{{X,O,X},{X,X,X},{O,O,O}},
+		{{X,X,X},
+			{O,X,O},
+			{O,X,O}
+		},
+		{{O,O,O,O},
+			{X,X,X,X},
+			{O,O,X,O},
+			{O,O,O,O}
+		},
+		{{O,O,O,O},
+			{X,X,X,X},
+			{O,O,O,X},
+			{O,O,O,O}
+
+		},
+		{{O,O,O,O},
+			{O,O,O,X},
+			{X,X,X,X},
+			{O,O,O,O}
+		},
+		{{O,O,O,O},
+			{O,O,X,O},
+			{X,X,X,X},
+			{O,O,O,O}
+		},
+		{{O,X,O},
+			{X,X,X},
+			{O,X,O}
+		},
+		{{X,X,O},
+			{O,X,O},
+			{O,X,X}
+		},
+		{{O,X,X},
+			{O,X,O},
+			{X,X,O}
+		}
+
+	};
+	
+	public static boolean[][][] classicPieces = new boolean[][][]{
+		{{O,X,O,O},
+		 {O,X,O,O},
+		 {O,X,O,O},
+		 {O,X,O,O}},
+		   {{X,X},
+			{X,X}},
+		   {{O,O,O},
+			{X,X,X},
+			{O,X,O}},
+		   {{O,X,O},
+			{O,X,O},
+			{O,X,X}},
+		   {{O,X,O},
+			{O,X,O},
+			{X,X,O}},
+		   {{O,X,O},
+			{X,X,O},
+			{X,O,O}},
+		   {{O,X,O},
+			{O,X,X},
+			{O,O,X}}
+		};
+	
 }

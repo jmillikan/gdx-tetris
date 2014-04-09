@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Matrix4;
@@ -61,7 +62,7 @@ public class GameScreen implements Screen {
 	}
 	
 	GameType gameType;
-
+	
 	// row-major grid, 0 at the bottom, 21/20 hidden at the top
 	boolean[][] grid = new boolean[GRID_HEIGHT][GRID_WIDTH];
 	
@@ -74,25 +75,29 @@ public class GameScreen implements Screen {
 			pieceFactory = new EasyFactory();
 			break;
 		case Classic:
-			pieceFactory = new PieceBagFactory(classicPieces);
+			pieceFactory = new PieceBagFactory(Assets.classicPieces);
 			break;
 		case EasyFives:
-			pieceFactory = new PieceBagFactory(niceFives);
+			pieceFactory = new PieceBagFactory(Assets.niceFives);
 			break;
 		case ThreesAndFives:
 			pieceFactory = new AlternatingFactories(
 					new AlternatingFactories(
-							new PieceBagFactory(niceFives),
-							new PieceBagFactory(modFives)),
-							new PieceBagFactory(threePieces));
+							new PieceBagFactory(Assets.niceFives),
+							new PieceBagFactory(Assets.modFives)),
+							new PieceBagFactory(Assets.threePieces));
 			break;
 		}
 
 		// hack hack hack...
 		// Otherwise we might get extra keystrokes here. 
 		Assets.clearKeyDongles();
-						
-		// PieceState is closed over pieceFactory.
+		
+		// Queue so pieceState has one
+		this.nextPiece = pieceFactory.nextPiece();
+		this.nextNextPiece = pieceFactory.nextPiece();
+		
+		// PieceState call popPiece, taking out first piece
 		state = new PieceState();
 		
 		cam = new OrthographicCamera();
@@ -168,7 +173,7 @@ public class GameScreen implements Screen {
 		}
 		
 		public void update(float delta){
-			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+			if(touched(Assets.gameScreenPause1)){
 				state = new PausedState(this);
 			}
 
@@ -187,7 +192,7 @@ public class GameScreen implements Screen {
 
 	class PieceState implements GameState {
 		// A square array of length 2/3/4
-		boolean[][] piece = pieceFactory.nextPiece();
+		boolean[][] piece = popPiece();
 		
 		// These are interpreted as grid position of the top left corner
 		// of the piece (which give the odd-looking "- i" bits) -
@@ -202,7 +207,7 @@ public class GameScreen implements Screen {
 		public void draw(){
 			drawGame();
 			
-			drawBlocks(piece, piece_x, piece_y, true);
+			drawBlocks(piece, Assets.gameScreenGrid, piece_x, piece_y, true);
 		}
 		
 		// copy piece onto grid
@@ -229,7 +234,7 @@ public class GameScreen implements Screen {
 				checkEnd = false;
 			}
 			
-			if(touched(Assets.gameScreenPause1) || touched(Assets.gameScreenPause2)){
+			if(touched(Assets.gameScreenPause1)){
 				state = new PausedState(PieceState.this);		
 			}
 			
@@ -303,6 +308,17 @@ public class GameScreen implements Screen {
 		state.update(delta);
 		
 		batch.end();
+	}
+	
+	boolean[][] nextPiece;
+	boolean[][] nextNextPiece;
+	
+	boolean[][] popPiece(){
+		boolean[][] currentPiece = nextPiece;
+		nextPiece = nextNextPiece;
+		nextNextPiece = pieceFactory.nextPiece();
+		
+		return currentPiece;
 	}
 	
 	boolean touched(com.badlogic.gdx.math.Rectangle r){
@@ -380,7 +396,11 @@ public class GameScreen implements Screen {
 		batch.draw(mm_sprite,  0,  0);
 
 		// calls setColor. Need to disentangle this eventually.
-		drawBlocks(grid, 0, 0, false);
+		drawBlocks(grid, Assets.gameScreenGrid, 0, 0, false);
+		
+		drawBlocks(nextPiece, Assets.gameScreenPreview, 0, 4, true);
+
+		drawBlocks(nextNextPiece, Assets.gameScreenPreview2, 0, 4, true);
 
 		// GWT doesn't support normal string formatting. Rather than get into a mess, don't use string formatting...
 		int s = score;
@@ -391,28 +411,28 @@ public class GameScreen implements Screen {
 		}
 	}
 	
-	// flip_y because the grid is stored upside down from the piece.
-	// This is not really a good thing.
-	void drawBlocks(boolean[][] blocks, int x, int y, boolean flip_y){
-		float s = 10.0f / 11.0f;
+	void drawBlocks(boolean[][] blocks, Rectangle grid, int x, int y, boolean flip_y){
+		// flip_y because the grid is stored upside down from the pieces.
+		// This is not really a good thing.
 
-		float grid_x = Assets.gameScreenGrid.x / s;
-		float grid_y = Assets.gameScreenGrid.y / s;
-		
+		// Note: The Rectangles we're passed in as grid will follow the convention
+		// that their width and height will be of a standard block for that display area
+
 		Matrix4 grid_scale = new Matrix4();
-		grid_scale.scale(s, s, 1.0f);
+		grid_scale.setToTranslationAndScaling(grid.x, grid.y, 0.0f, grid.width / BLOCK_SIZE, grid.height / BLOCK_SIZE, 1.0f);
 		
 		batch.setTransformMatrix(grid_scale);
-				
+
 		batch.setColor(Assets.color1);
 		
 		for(int i = 0; i < blocks.length; i++){
 			for(int j = 0; j < blocks[i].length; j++){
-				if(blocks[i][j] && (y + (flip_y ? -i : i)) < GRID_HEIGHT - 2){
+				int actual_i = flip_y ? -i : i;
+				if(blocks[i][j] && y + actual_i < GRID_HEIGHT - 2){
 					batch.draw(
 							block_sprite, 
-							grid_x + BLOCK_SIZE * (x + j),
-							grid_y + BLOCK_SIZE * (y + (flip_y ? -i : i)));
+							BLOCK_SIZE * (x + j),
+							BLOCK_SIZE * (y + actual_i));
 				}
 			}
 		}
@@ -468,9 +488,6 @@ public class GameScreen implements Screen {
 		
 	}
 	
-	final static boolean X = true;
-	final static boolean O = false;
-
 	// PIECES
 	// Pieces are square arrays of booleans, true for "block here".
 	// To keep things 'simple', never write over pieces. Instead, copy when necessary.
@@ -518,127 +535,4 @@ public class GameScreen implements Screen {
 			return a ? fa.nextPiece() : fb.nextPiece();
 		}
 	}
-	
-	static boolean[][][] threePieces = new boolean[][][]{
-		{{O,X,O},
-			{O,X,O},
-			{O,X,O}},
-			{{X,O},{X,X}}
-	};
-	
-	static boolean[][][] niceFives = new boolean[][][]{
-		{{X,X,X},
-			{X,X,O},
-			{O,O,O}
-		},
-		{{X,X,X},
-			{O,X,X},
-			{O,O,O}
-		},
-		{{O,O,O,O},
-			{X,X,O,O},
-			{O,X,X,X},
-			{O,O,O,O}
-		},
-		{{O,O,O,O},
-			{O,X,X,X},
-			{X,X,O,O},
-			{O,O,O,O}
-		},
-		{{X,X,X},
-			{X,O,O},
-			{X,O,O}
-		},
-		{{X,X,O},
-			{O,X,X},
-			{O,O,X}
-
-		},
-		{{X,O,O},
-			{X,X,X},
-			{O,X,O}
-		},
-		{{O,O,X},
-			{X,X,X},
-			{O,X,O}
-		},
-		{{O,O,O,O,O},
-			{X,X,X,X,X},
-			{O,O,O,O,O},
-			{O,O,O,O,O},
-			{O,O,O,O,O}
-		}
-	};
-	
-	static boolean[][][] modFives = new boolean[][][]{
-		{{O,O,O,O,O},
-			{X,X,X,X,X},
-			{O,O,O,O,O},
-			{O,O,O,O,O},
-			{O,O,O,O,O}
-		},
-		{{X,O,X},{X,X,X},{O,O,O}},
-		{{X,X,X},
-			{O,X,O},
-			{O,X,O}
-		},
-		{{O,O,O,O},
-			{X,X,X,X},
-			{O,O,X,O},
-			{O,O,O,O}
-		},
-		{{O,O,O,O},
-			{X,X,X,X},
-			{O,O,O,X},
-			{O,O,O,O}
-
-		},
-		{{O,O,O,O},
-			{O,O,O,X},
-			{X,X,X,X},
-			{O,O,O,O}
-		},
-		{{O,O,O,O},
-			{O,O,X,O},
-			{X,X,X,X},
-			{O,O,O,O}
-		},
-		{{O,X,O},
-			{X,X,X},
-			{O,X,O}
-		},
-		{{X,X,O},
-			{O,X,O},
-			{O,X,X}
-		},
-		{{O,X,X},
-			{O,X,O},
-			{X,X,O}
-		}
-
-	};
-	
-	static boolean[][][] classicPieces = new boolean[][][]{
-		{{O,X,O,O},
-		 {O,X,O,O},
-		 {O,X,O,O},
-		 {O,X,O,O}},
-		   {{X,X},
-			{X,X}},
-		   {{O,O,O},
-			{X,X,X},
-			{O,X,O}},
-		   {{O,X,O},
-			{O,X,O},
-			{O,X,X}},
-		   {{O,X,O},
-			{O,X,O},
-			{X,X,O}},
-		   {{O,X,O},
-			{X,X,O},
-			{X,O,O}},
-		   {{O,X,O},
-			{O,X,X},
-			{O,O,X}}
-		};
 }
