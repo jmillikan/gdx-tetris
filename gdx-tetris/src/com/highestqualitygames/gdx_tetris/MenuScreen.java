@@ -90,8 +90,8 @@ public class MenuScreen implements Screen {
 			break;
 		case Classic: 
 		default:
-			typeName1 = "Classic Mode - ";
-			typeName2 = "don't say it!";
+			typeName1 = "Threes & Fours.";
+			typeName2 = "Easy, right?";
 			break;
 		}
 		

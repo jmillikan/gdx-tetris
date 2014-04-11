@@ -88,7 +88,7 @@ public class Assets {
 		mainScreenMode1 = new Rectangle(128, 337, 250, 122);
 		mainScreenMode2 = new Rectangle(128, 205, 250, 122);
 		mainScreenMode3 = new Rectangle(128, 71, 250, 122);
-		mainScreenTest = new Rectangle(280, 10, 100, 30);
+		mainScreenTest = button_r(280, 43, 112, 52);
 		
 		texture = new Texture(Gdx.files.internal("data/game-over.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -107,7 +107,7 @@ public class Assets {
 		texture = new Texture(Gdx.files.internal("data/block.png"));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		block = new TextureRegion(texture, 0, 0, 20, 20);
+		block = new TextureRegion(texture, 1, 1, 18, 18);
 		
 		font = new BitmapFont(Gdx.files.internal("data/ubuntu-mono-48.fnt"),
 		         Gdx.files.internal("data/ubuntu-mono-48.png"), false);
@@ -273,4 +273,17 @@ public class Assets {
 			{O,O,X}}
 		};
 	
+	static boolean[] b3 = {O,O,O};
+	static boolean[] b4 = {O,O,O,O};
+	
+	public static boolean[][][] fours = new boolean[][][]{
+		{b4, {X,X,X,O},{O,O,O,X}, b4},
+		{b4, {O,O,O,X},{X,X,X,O}, b4},
+		{b4, {X,X,O,O}, {O,O,X,X}, b4},
+		{b4, {X,X,O,O}, {X,O,X,O}, b4},
+		{b4, {X,O,X,O}, {X,X,O,O}, b4},
+		{{X,O,O,O}, {O,X,X,O}, {O,X,O,O}, b4},
+		{{O,O,O,X}, {O,X,X,O}, {O,X,O,O}, b4},
+		{b4, {O,X,O,O}, {O,X,X,O}, {O,O,O,X}}
+	};
 }

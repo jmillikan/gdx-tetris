@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Matrix4;
 
 public class GameScreen implements Screen {
 	// Graphics constants
-	final int BLOCK_SIZE = 20;
+	final int BLOCK_SIZE = 18;
 	
 	// Game constants
 	final int FASTER_COUNT = 1;
@@ -75,17 +75,22 @@ public class GameScreen implements Screen {
 			pieceFactory = new EasyFactory();
 			break;
 		case Classic:
-			pieceFactory = new PieceBagFactory(Assets.classicPieces);
+			pieceFactory = new FactoryRing(
+					new PieceFactory[]{
+							new PieceBagFactory(Assets.threePieces),
+							new PieceBagFactory(Assets.fours),
+							new PieceBagFactory(Assets.fours)});
 			break;
 		case EasyFives:
 			pieceFactory = new PieceBagFactory(Assets.niceFives);
 			break;
 		case ThreesAndFives:
-			pieceFactory = new AlternatingFactories(
-					new AlternatingFactories(
+			pieceFactory = new FactoryRing(
+					new PieceFactory[]{
 							new PieceBagFactory(Assets.niceFives),
-							new PieceBagFactory(Assets.modFives)),
-							new PieceBagFactory(Assets.threePieces));
+							new PieceBagFactory(Assets.threePieces),
+							new PieceBagFactory(Assets.modFives), 
+							new PieceBagFactory(Assets.threePieces)});
 			break;
 		}
 
@@ -520,19 +525,18 @@ public class GameScreen implements Screen {
 		}
 	}
 	
-	class AlternatingFactories implements PieceFactory {
-		PieceFactory fa, fb;
-		boolean a = false;
+	class FactoryRing implements PieceFactory {
+		PieceFactory[] factories;
+		int nextFactory = -1;
 		
-		AlternatingFactories(PieceFactory fa, PieceFactory fb){
-			this.fa = fa;
-			this.fb = fb;
+		public FactoryRing(PieceFactory[] fs){
+			factories = fs;
 		}
-		
-		public boolean[][] nextPiece(){
-			a = !a;
-			
-			return a ? fa.nextPiece() : fb.nextPiece();
+
+		@Override
+		public boolean[][] nextPiece() {
+			nextFactory = (nextFactory + 1) % factories.length;
+			return factories[nextFactory].nextPiece();
 		}
 	}
 }
