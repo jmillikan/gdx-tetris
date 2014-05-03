@@ -55,12 +55,6 @@ public class GameScreen implements Screen {
 		boolean[][] nextPiece();
 	}
 
-	PieceFactory pieceFactory;
-	
-	public enum GameType {
-		Classic, EasyFives, ThreesAndFives, Test
-	}
-	
 	GameType gameType;
 	
 	// row-major grid, 0 at the bottom, 21/20 hidden at the top
@@ -70,37 +64,14 @@ public class GameScreen implements Screen {
 		this.game = game;
 		this.gameType = type;
 		
-		switch(gameType){
-		case Test:
-			pieceFactory = new EasyFactory();
-			break;
-		case Classic:
-			pieceFactory = new FactoryRing(
-					new PieceFactory[]{
-							new PieceBagFactory(Assets.threePieces),
-							new PieceBagFactory(Assets.fours),
-							new PieceBagFactory(Assets.fours)});
-			break;
-		case EasyFives:
-			pieceFactory = new PieceBagFactory(Assets.niceFives);
-			break;
-		case ThreesAndFives:
-			pieceFactory = new FactoryRing(
-					new PieceFactory[]{
-							new PieceBagFactory(Assets.niceFives),
-							new PieceBagFactory(Assets.threePieces),
-							new PieceBagFactory(Assets.modFives), 
-							new PieceBagFactory(Assets.threePieces)});
-			break;
-		}
 
 		// hack hack hack...
 		// Otherwise we might get extra keystrokes here. 
 		Assets.clearKeyDongles();
 		
 		// Queue so pieceState has one
-		this.nextPiece = pieceFactory.nextPiece();
-		this.nextNextPiece = pieceFactory.nextPiece();
+		this.nextPiece = nextPiece();
+		this.nextNextPiece = nextPiece();
 		
 		// PieceState call popPiece, taking out first piece
 		state = new PieceState();
@@ -318,10 +289,14 @@ public class GameScreen implements Screen {
 	boolean[][] nextPiece;
 	boolean[][] nextNextPiece;
 	
+	boolean[][] nextPiece(){
+		return gameType.nextPiece();
+	}
+	
 	boolean[][] popPiece(){
 		boolean[][] currentPiece = nextPiece;
 		nextPiece = nextNextPiece;
-		nextNextPiece = pieceFactory.nextPiece();
+		nextNextPiece = nextPiece();
 		
 		return currentPiece;
 	}
@@ -491,52 +466,5 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	// PIECES
-	// Pieces are square arrays of booleans, true for "block here".
-	// To keep things 'simple', never write over pieces. Instead, copy when necessary.
-	
-	class EasyFactory implements PieceFactory {
-		public boolean[][] nextPiece(){
-			boolean easy[][] = new boolean[GRID_WIDTH][GRID_WIDTH];
-			for(int i = 0; i < GRID_WIDTH;i++){
-				easy[0][i] = true;
-				easy[1][i] = true;
-				easy[2][i] = true;
-				easy[3][i] = true;
-			}
-
-			return easy;
-		}
-	}
-
-	// Evenly, randomly from a predetermined list
-	class PieceBagFactory implements PieceFactory {
-		// An array of pieces
-		boolean[][][] pieces;
-		
-		PieceBagFactory(boolean[][][] pieces) {
-			this.pieces = pieces;
-		}
-		
-		public boolean[][] nextPiece() {
-			return pieces[(int) Math.floor(Math.random() * pieces.length)];			
-		}
-	}
-	
-	class FactoryRing implements PieceFactory {
-		PieceFactory[] factories;
-		int nextFactory = -1;
-		
-		public FactoryRing(PieceFactory[] fs){
-			factories = fs;
-		}
-
-		@Override
-		public boolean[][] nextPiece() {
-			nextFactory = (nextFactory + 1) % factories.length;
-			return factories[nextFactory].nextPiece();
-		}
 	}
 }

@@ -17,7 +17,7 @@ public class MenuScreen implements Screen {
 	Sprite mm_sprite;
 	Game game;
 	
-	GameScreen.GameType gameType = GameScreen.GameType.Classic;
+	GameType gameType = GameType.Classic;
 	
 	public MenuScreen(Game game) {
 		this.game = game;
@@ -44,15 +44,15 @@ public class MenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		if (touched(Assets.mainScreenMode1)){
-			gameType = GameScreen.GameType.Classic;
+			gameType = GameType.Classic;
 		}
 
 		if (touched(Assets.mainScreenMode2)){
-			gameType = GameScreen.GameType.EasyFives;
+			gameType = GameType.EasyFives;
 		}
 
 		if (touched(Assets.mainScreenMode3)){
-			gameType = GameScreen.GameType.ThreesAndFives;
+			gameType = GameType.ThreesAndFives;
 		}
 
 		if (touched(Assets.mainScreenStart)){
@@ -60,7 +60,7 @@ public class MenuScreen implements Screen {
 		}
 
 		if (touched(Assets.mainScreenTest)){
-			gameType = GameScreen.GameType.Test;
+			gameType = GameType.Test;
 		}
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -74,26 +74,8 @@ public class MenuScreen implements Screen {
 		
 		batch.draw(mm_sprite, 0, 0);
 
-		String typeName1, typeName2;
-		switch(gameType){
-		case EasyFives:
-			typeName1 = "Five at a time,";
-			typeName2 = "the easy way.";
-			break;
-		case ThreesAndFives:
-			typeName1 = "Fives, with a";
-			typeName2 = "little help.";
-			break;
-		case Test:
-			typeName1 = ".-.";
-			typeName2 = "";
-			break;
-		case Classic: 
-		default:
-			typeName1 = "Threes & Fours.";
-			typeName2 = "Easy, right?";
-			break;
-		}
+		String typeName1 = gameType.title();
+		String typeName2 = gameType.description();
 		
 		Assets.font.draw(batch, typeName1, 410, 420);
 		Assets.font.draw(batch, typeName2, 410, 360);

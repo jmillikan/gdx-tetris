@@ -6,18 +6,25 @@ public class GameType {
 	public static GameType EasyFives, ThreesAndFives, Test, Classic;
 	
 	static {
-		EasyFives = new GameType(new PieceBagFactory(Assets.niceFives), 
-				"Five at a time,", "the easy way.");
+		EasyFives = new GameType(new FactoryRing(
+				new PieceFactory[]{
+						new PieceBagFactory(Assets.niceFives),
+						new PieceBagFactory(Assets.niceFives),
+						new PieceBagFactory(Assets.niceFives), 
+						new PieceBagFactory(Assets.threePieces)}),
+				"Easy fives, ", "a little help.");
 		ThreesAndFives = new GameType(new FactoryRing(
 				new PieceFactory[]{
 						new PieceBagFactory(Assets.niceFives),
 						new PieceBagFactory(Assets.threePieces),
 						new PieceBagFactory(Assets.modFives), 
 						new PieceBagFactory(Assets.threePieces)}), 
-						"Fives, with a", "little help.");
+						"Fives, with a", "lot of help.");
 		Test = new GameType(new EasyFactory(), ".-.", "");
 		Classic = new GameType(new FactoryRing(
 				new PieceFactory[]{
+						new PieceBagFactory(Assets.threePieces),
+						new PieceBagFactory(Assets.fours),
 						new PieceBagFactory(Assets.threePieces),
 						new PieceBagFactory(Assets.fours),
 						new PieceBagFactory(Assets.fours)}), 
